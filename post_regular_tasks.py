@@ -79,14 +79,18 @@ class TrelloBoard:
         requests.post(url, params=querystring)
         print(f"Posted card: {card_name} to list {card_list} (due {due_date.date()})")
 
-    def assign_due_date(self, freq):
-        today = (dt.datetime.today() + dt.timedelta(1)).replace(hour=0,minute=30,second=0)
-        delta = {"daily": dt.timedelta(0),
-                "weekly": dt.timedelta(4 - today.weekday() % 7),
-                "monthly": dt.timedelta(30),
-                "bi-weekly": dt.timedelta()}
-        due_date = today + delta[freq]
+    def assign_due_date(freq):
+        today = dt.datetime.today().replace(hour=23,minute=59,second=0)
+    
+        next_sunday = lambda x: x + dt.timedelta(4 - x.weekday() % 7)
+        delta = {
+            "daily": today,
+            "weekly": next_sunday(today),
+            "monthly": next_sunday(today + dt.timedelta(30))
+            }
+        due_date = delta[freq]
         return due_date
+
     
 
     def import_tasks(self):
@@ -105,10 +109,9 @@ class TrelloBoard:
                     print(f"Card skipped: {task_name}")
 
 
-def main():
-    board = TrelloBoard()
+def main(board_name = "To Do Test"):
+    board = TrelloBoard(board_name)
     board.post_tasks()
     
 if __name__ == "__main__":
     main()
-    
