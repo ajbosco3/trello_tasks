@@ -79,14 +79,18 @@ class TrelloBoard:
         requests.post(url, params=querystring)
         print(f"Posted card: {card_name} to list {card_list} (due {due_date.date()})")
 
-    def assign_due_date(freq):
+    def assign_due_date(self, freq):
         today = dt.datetime.today().replace(hour=23,minute=59,second=0)
     
         next_sunday = lambda x: x + dt.timedelta(4 - x.weekday() % 7)
         delta = {
             "daily": today,
             "weekly": next_sunday(today),
-            "monthly": next_sunday(today + dt.timedelta(30))
+            "bi-weekly": next_sunday(today + dt.timedelta(14)),
+            "monthly": next_sunday(today + dt.timedelta(30)),
+            "quarterly": next_sunday(today + dt.timedelta(90)),
+            "semi-annually": next_sunday(today + dt.timedelta(180)),
+            "annually": next_sunday(today + dt.timedelta(365))
             }
         due_date = delta[freq]
         return due_date
