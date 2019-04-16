@@ -24,7 +24,7 @@ class TrelloBoard:
         return board_id
         
     def get_cards(self):
-        url = "https://api.trello.com/1/boards/5cb0f20ceab39310f1be32b1/cards/"
+        url = f"https://api.trello.com/1/boards/{self.board_id}/cards/"
         querystring = {
             "key": self.key,
             "token": self.token,
@@ -38,7 +38,7 @@ class TrelloBoard:
         return names
 
     def get_labels(self):
-        url = "https://api.trello.com/1/boards/5cb0f20ceab39310f1be32b1/labels/"
+        url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
         querystring = {
             "key": self.key,
             "token": self.token
@@ -50,7 +50,7 @@ class TrelloBoard:
         return label_map
 
     def get_lists(self):
-        url = "https://api.trello.com/1/boards/5cb0f20ceab39310f1be32b1/lists/"
+        url = f"https://api.trello.com/1/boards/{self.board_id}/lists/"
         querystring = {
             "key": self.key,
             "token": self.token
