@@ -82,7 +82,7 @@ class TrelloBoard:
     def assign_due_date(self, freq):
         today = dt.datetime.today().replace(hour=23,minute=59,second=0)
     
-        next_sunday = lambda x: x + dt.timedelta(4 - x.weekday() % 7)
+        next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
         delta = {
             "daily": today,
             "weekly": next_sunday(today),
