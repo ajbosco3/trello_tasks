@@ -38,7 +38,7 @@ class TrelloBoard:
         r = requests.get(url, params=querystring)
         cards = r.json()
         
-        names = [card["name"] for card in cards]
+        names = [{"name": card["name"], "id": card["id"], "list": card["idList"]} for card in cards]
         print("Fetched cards")
         return names
 
@@ -110,9 +110,10 @@ class TrelloBoard:
     def post_tasks(self):
         for freq, data in self.tasks.items():
             card_list = data["list"]
+            card_names = [card["name"] for card in self.cards]
             for task in data["tasks"]:
                 task_name = task["name"]
-                if task["name"] not in self.cards:
+                if task["name"] not in card_names:
                     self.create_card(task, card_list, freq)
                 else:
                     print(f"Card skipped: {task_name}")
