@@ -100,8 +100,6 @@ class TrelloBoard:
         due_date = delta[freq]
         return due_date
 
-    
-
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
             tasks = json.load(f)
@@ -117,6 +115,16 @@ class TrelloBoard:
                     self.create_card(task, card_list, freq)
                 else:
                     print(f"Card skipped: {task_name}")
+
+    def archive_cards(self, list_name="Done"):
+        list_id = self.lists[list_name]
+        url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
+        querystring = {
+            "key": self.key,
+            "token": self.token
+        }
+        r = requests.post(url, params=querystring)
+        print(f"All cards archived in list: {list_name}")
 
 
 def main(board_name = "To Do Test"):
