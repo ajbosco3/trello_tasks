@@ -4,13 +4,18 @@ import requests
 
 class TrelloBoard:
     def __init__(self, board_name):
-        self.key = "***REMOVED***"
-        self.token = "***REMOVED***"
+        self.get_credentials()
         self.board_id = self.get_board_id(board_name)
         self.cards = self.get_cards()
         self.labels = self.get_labels()
         self.lists = self.get_lists()
         self.tasks = self.import_tasks()
+
+    def get_credentials(self):
+        with open("credentials.json", "r") as f:
+            creds = json.load(f)
+        self.key = creds["key"]
+        self.token = creds["token"]
 
     def get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
