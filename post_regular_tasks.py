@@ -116,15 +116,31 @@ class TrelloBoard:
                 else:
                     print(f"Card skipped: {task_name}")
 
+    def update_task_file(self):
+        with open("regular_tasks.json", "w") as f:
+            json.dump(self.tasks, f)
+
+    def log_date(self, list_cards):
+        today = dt.date.today().strftime("%Y-%m-%d")
+        for card in list_cards:
+            for freq, data in self.tasks.items():
+                for i, task in enumerate(data["tasks"]):
+                    if card == task["name"]:
+                        self.tasks[freq]["tasks"][i]["last_complete"] = today
+        self.update_task_file()
+
+
     def archive_cards(self, list_name="Done"):
         list_id = self.lists[list_name]
+        list_cards = [card["name"] for card in self.cards if card["list"] == list_id]
         url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
         querystring = {
             "key": self.key,
             "token": self.token
         }
-        r = requests.post(url, params=querystring)
+        requests.post(url, params=querystring)
         print(f"All cards archived in list: {list_name}")
+        self.log_date(list_cards)
 
 
 def main(board_name = "To Do Test"):
