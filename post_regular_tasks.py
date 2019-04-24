@@ -95,7 +95,7 @@ class TrelloBoard:
         next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
         delta = {
             "daily": base,
-            "weekly": next_sunday(base),
+            "weekly": next_sunday(base + dt.timedelta(7)),
             "bi-weekly": next_sunday(base + dt.timedelta(14)),
             "monthly": next_sunday(base + dt.timedelta(30)),
             "quarterly": next_sunday(base + dt.timedelta(90)),
@@ -132,21 +132,23 @@ class TrelloBoard:
                 for i, task in enumerate(data["tasks"]):
                     if card == task["name"]:
                         self.tasks[freq]["tasks"][i]["last_complete"] = today
-        self.update_task_file()
-
 
     def archive_cards(self, list_name="Done"):
         list_id = self.lists[list_name]
-        list_cards = [card["name"] for card in self.cards if card["list"] == list_id]
+        list_cards = []
+        for i, card in list(enumerate(self.cards))[::-1]:
+            if card["list"] == list_id:
+                list_cards.append(card["name"])
+                del self.cards[i]
         url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
         querystring = {
             "key": self.key,
             "token": self.token
         }
         requests.post(url, params=querystring)
-        print(f"All cards archived in list: {list_name}")
+        print(f"All cards archived in list {list_name}: {list_cards}")
         self.log_date(list_cards)
-
+        self.update_task_file()
 
 def main(board_name = "To Do Test"):
     board = TrelloBoard(board_name)
@@ -154,3 +156,6 @@ def main(board_name = "To Do Test"):
     
 if __name__ == "__main__":
     main()
+
+
+    enumerate()
