@@ -85,24 +85,18 @@ class TrelloBoard:
         requests.post(url, params=querystring)
         print(f"Posted card: {card_name} to list {card_list} (due {due_date.date()})")
 
-    def assign_due_date(self, freq, last_complete):
-        if last_complete:
-            base = dt.datetime.strptime(last_complete, "%Y-%m-%d")
+    def assign_due_date(self, date_info):
+        if date_info["last_complete"]:
+            base = dt.datetime.strptime(date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
         base = base.replace(hour=23,minute=59,second=0)
-    
+        due_date = base + dt.timedelta(date_info["delta"])
+
         next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
-        delta = {
-            "daily": base,
-            "weekly": next_sunday(base + dt.timedelta(7)),
-            "bi-weekly": next_sunday(base + dt.timedelta(14)),
-            "monthly": next_sunday(base + dt.timedelta(30)),
-            "quarterly": next_sunday(base + dt.timedelta(90)),
-            "semi-annually": next_sunday(base + dt.timedelta(180)),
-            "annually": next_sunday(base + dt.timedelta(365))
-            }
-        due_date = delta[freq]
+        if date_info["advance"]:
+            due_date = next_sunday(due_date)
+
         return due_date
 
     def import_tasks(self):
@@ -156,6 +150,3 @@ def main(board_name = "To Do Test"):
     
 if __name__ == "__main__":
     main()
-
-
-    enumerate()
