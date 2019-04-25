@@ -147,7 +147,7 @@ class TrelloBoard:
                 print(f"Card skipped: {task['name']}")
 
     def update_task_file(self):
-        with open("regular_tasks_test.json", "w") as f:
+        with open("regular_tasks.json", "w") as f:
             json.dump(self.tasks, f)
 
     def log_date(self, list_cards):
