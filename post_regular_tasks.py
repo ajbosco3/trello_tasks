@@ -11,11 +11,12 @@ class RangeDict(dict):
         return default
 
 def localize_ts(timestamp):
-    utc = tz.tzutc()
-    ct = tz.gettz('America/Chicago')
-    timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
-    timestamp = timestamp.astimezone(ct)
-    return timestamp
+    if timestamp:
+        utc = tz.tzutc()
+        ct = tz.gettz('America/Chicago')
+        timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
+        timestamp = timestamp.astimezone(ct)
+        return timestamp
 
 class TrelloBoard:
     def __init__(self, board_name):
