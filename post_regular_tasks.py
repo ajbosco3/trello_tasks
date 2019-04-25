@@ -153,7 +153,7 @@ class TrelloBoard:
         for card in list_cards:
             due_date = card["due"].strftime("%Y-%m-%d")
             for i, task in enumerate(self.tasks):
-                if card == task["name"]:
+                if card["name"] == task["name"]:
                     self.tasks[i]["date_info"]["last_complete"] = due_date
 
     def archive_cards(self, list_name="Done"):
