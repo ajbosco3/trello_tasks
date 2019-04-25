@@ -1,6 +1,21 @@
 import datetime as dt
 import json
 import requests
+from dateutil import tz
+
+class RangeDict(dict):
+    def get(self, item, default=None):
+        for key in self:
+            if item in key:
+                return self[key]
+        return default
+
+def localize_ts(timestamp):
+    utc = tz.tzutc()
+    ct = tz.gettz('America/Chicago')
+    timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
+    timestamp = timestamp.astimezone(ct)
+    return timestamp
 
 class TrelloBoard:
     def __init__(self, board_name):
@@ -38,7 +53,14 @@ class TrelloBoard:
         r = requests.get(url, params=querystring)
         cards = r.json()
         
-        names = [{"name": card["name"], "id": card["id"], "list": card["idList"]} for card in cards]
+        names = [
+            {
+                "name": card["name"],
+                "id": card["id"],
+                "list": card["idList"],
+                "due": localize_ts(card["due"])
+            }
+            for card in cards]
         print("Fetched cards")
         return names
 
@@ -66,14 +88,25 @@ class TrelloBoard:
         print("Fetched lists")
         return lists
 
-    def create_card(self, task, card_list, freq):
-        url = "https://api.trello.com/1/cards"
+    def assign_list(self, due_date):
+        today = dt.datetime.today()
+        diff = (due_date - today).days
+        diff_map = RangeDict({
+            range(0,2): "Today",
+            range(2,8): "This Week",
+            range(8,30): "This Month"
+        })
+        card_list = diff_map.get(diff, "Beyond")
+        return card_list
+    
+    def create_card(self, task):
+        due_date = self.assign_due_date(task["date_info"])
+        card_list = self.assign_list(due_date)
         list_id = self.lists[card_list]
         label_ids = [self.labels[label] for label in task["labels"]]
         card_name = task["name"]
-        last_complete = task.get("last_complete", None)
-        due_date = self.assign_due_date(freq, last_complete)
         
+        url = "https://api.trello.com/1/cards"
         querystring = {
             "idList": list_id,
             "name": card_name,
@@ -100,39 +133,35 @@ class TrelloBoard:
         return due_date
 
     def import_tasks(self):
-        with open("regular_tasks.json", "r") as f:
+        with open("regular_tasks_test.json", "r") as f:
             tasks = json.load(f)
         return tasks
 
     def post_tasks(self):
-        for freq, data in self.tasks.items():
-            card_list = data["list"]
+        for task in self.tasks:
             card_names = [card["name"] for card in self.cards]
-            for task in data["tasks"]:
-                task_name = task["name"]
-                if task["name"] not in card_names:
-                    self.create_card(task, card_list, freq)
-                else:
-                    print(f"Card skipped: {task_name}")
+            if task["name"] not in card_names:
+                self.create_card(task)
+            else:
+                print(f"Card skipped: {task['name']}")
 
     def update_task_file(self):
-        with open("regular_tasks.json", "w") as f:
+        with open("regular_tasks_test.json", "w") as f:
             json.dump(self.tasks, f)
 
     def log_date(self, list_cards):
-        today = dt.date.today().strftime("%Y-%m-%d")
         for card in list_cards:
-            for freq, data in self.tasks.items():
-                for i, task in enumerate(data["tasks"]):
-                    if card == task["name"]:
-                        self.tasks[freq]["tasks"][i]["last_complete"] = today
+            due_date = card["due"].strftime("%Y-%m-%d")
+            for i, task in enumerate(self.tasks):
+                if card == task["name"]:
+                    self.tasks[i]["date_info"]["last_complete"] = due_date
 
     def archive_cards(self, list_name="Done"):
         list_id = self.lists[list_name]
         list_cards = []
         for i, card in list(enumerate(self.cards))[::-1]:
             if card["list"] == list_id:
-                list_cards.append(card["name"])
+                list_cards.append(card)
                 del self.cards[i]
         url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
         querystring = {
@@ -140,12 +169,14 @@ class TrelloBoard:
             "token": self.token
         }
         requests.post(url, params=querystring)
-        print(f"All cards archived in list {list_name}: {list_cards}")
+        card_names = [card["name"] for card in list_cards]
+        print(f"All cards archived in list {list_name}: {card_names}")
         self.log_date(list_cards)
         self.update_task_file()
 
 def main(board_name = "To Do Test"):
     board = TrelloBoard(board_name)
+    board.archive_cards()
     board.post_tasks()
     
 if __name__ == "__main__":
