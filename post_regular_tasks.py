@@ -21,11 +21,11 @@ def localize_ts(timestamp):
 class TrelloBoard:
     def __init__(self, board_name):
         self.get_credentials()
-        self.board_id = self.get_board_id(board_name)
-        self.cards = self.get_cards()
-        self.labels = self.get_labels()
-        self.lists = self.get_lists()
-        self.tasks = self.import_tasks()
+        self.get_board_id(board_name)
+        self.get_cards()
+        self.get_labels()
+        self.get_lists()
+        self.import_tasks()
 
     def get_credentials(self):
         with open("credentials.json", "r") as f:
@@ -42,7 +42,7 @@ class TrelloBoard:
         r = requests.get(url, params=querystring)
         boards = r.json()
         board_id = [board["id"] for board in boards if board["name"] == board_name][0]
-        return board_id
+        self.board_id = board_id
         
     def get_cards(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/cards/"
@@ -62,8 +62,8 @@ class TrelloBoard:
                 "due": localize_ts(card["due"])
             }
             for card in cards]
+        self.cards = names
         print("Fetched cards")
-        return names
 
     def get_labels(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
@@ -74,8 +74,8 @@ class TrelloBoard:
         r = requests.get(url, params=querystring)
         labels = r.json()
         label_map = {label["name"]: label["id"] for label in labels}
+        self.labels = label_map
         print("Fetched labels")
-        return label_map
 
     def get_lists(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/lists/"
@@ -86,8 +86,8 @@ class TrelloBoard:
         r = requests.get(url, params=querystring)
         lists_ = r.json()
         lists = {list_["name"]: list_["id"] for list_ in lists_}
+        self.lists = lists
         print("Fetched lists")
-        return lists
 
     def assign_list(self, due_date):
         today = dt.datetime.today()
@@ -135,8 +135,7 @@ class TrelloBoard:
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
-            tasks = json.load(f)
-        return tasks
+            self.tasks = json.load(f)
 
     def post_tasks(self):
         for task in self.tasks:
