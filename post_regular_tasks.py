@@ -134,7 +134,7 @@ class TrelloBoard:
         return due_date
 
     def import_tasks(self):
-        with open("regular_tasks_test.json", "r") as f:
+        with open("regular_tasks.json", "r") as f:
             tasks = json.load(f)
         return tasks
 
