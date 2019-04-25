@@ -158,21 +158,20 @@ class TrelloBoard:
 
     def archive_cards(self, list_name="Done"):
         list_id = self.lists[list_name]
-        list_cards = []
-        for i, card in list(enumerate(self.cards))[::-1]:
-            if card["list"] == list_id:
-                list_cards.append(card)
-                del self.cards[i]
+        list_cards = [card for card in self.cards if card["list"] == list_id]
+        
         url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
         querystring = {
             "key": self.key,
             "token": self.token
         }
         requests.post(url, params=querystring)
+        
         card_names = [card["name"] for card in list_cards]
         print(f"All cards archived in list {list_name}: {card_names}")
         self.log_date(list_cards)
         self.update_task_file()
+        self.get_cards()
 
 def main(board_name = "To Do Test"):
     board = TrelloBoard(board_name)
