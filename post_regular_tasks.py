@@ -59,7 +59,8 @@ class TrelloBoard:
                 "name": card["name"],
                 "id": card["id"],
                 "list": card["idList"],
-                "due": localize_ts(card["due"])
+                "due": localize_ts(card["due"]),
+                "pos": card["pos"]
             }
             for card in cards]
         self.cards = names
