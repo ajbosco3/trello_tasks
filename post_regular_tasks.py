@@ -2,6 +2,7 @@ import datetime as dt
 import json
 import requests
 from dateutil import tz
+from collections import defaultdict
 
 class RangeDict(dict):
     def get(self, item, default=None):
@@ -59,8 +60,8 @@ class TrelloBoard:
                 "name": card["name"],
                 "id": card["id"],
                 "list": card["idList"],
+                "labels": card["idLabels"],
                 "due": localize_ts(card["due"]),
-                "pos": card["pos"]
             }
             for card in cards]
         self.cards = names
@@ -76,6 +77,7 @@ class TrelloBoard:
         labels = r.json()
         label_map = {label["name"]: label["id"] for label in labels}
         self.labels = label_map
+        self.label_names = {id: name for name, id in self.labels.items()}
         print("Fetched labels")
 
     def get_lists(self):
@@ -137,6 +139,7 @@ class TrelloBoard:
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
             self.tasks = json.load(f)
+        self.task_names = [task["name"] for task in self.tasks]
 
     def post_tasks(self):
         for task in self.tasks:
@@ -174,10 +177,32 @@ class TrelloBoard:
         self.update_task_file()
         self.get_cards()
 
+    def sort_list(self, card_list):
+        prefer_order = lambda x: (
+            not x["name"] == "Groceries",
+            x["name"] in self.task_names,
+            x["due"],
+            self.label_names[x["labels"][0]],
+            x["name"])
+        card_list = sorted(card_list, key=prefer_order)
+
+        for rank, card in enumerate(card_list, start=1):
+            url = f"https://api.trello.com/1/cards/{card['id']}"
+            querystring = {"key": self.key, "token": self.token, "pos": rank}
+            requests.put(url, querystring)
+
+    def sort_all_lists(self):
+        groups = defaultdict(list)
+        for card in self.cards:
+            groups[card["list"]].append(card)
+        for card_list in groups.values():
+            self.sort_list(card_list)
+
 def main(board_name = "To Do Test"):
     board = TrelloBoard(board_name)
     board.archive_cards()
     board.post_tasks()
+    board.sort_all_lists()
     
 if __name__ == "__main__":
     main()
