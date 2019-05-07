@@ -199,6 +199,25 @@ class TrelloBoard:
         for card_list in groups.values():
             self.sort_list(card_list)
 
+    def add_task(self):
+        name = input("Enter task name: ")
+        labels = input("Enter label names, separated by comma: ").split(",")
+        delta = int(input("Enter task frequency: "))
+        advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
+        task = {
+            "name": name,
+            "labels": labels,
+            "date_info": {
+                "delta": delta,
+                "advance": advance,
+                "last_complete": None
+            }
+        }
+        self.tasks.append(task)
+        self.update_task_file()
+
+
+
 def main(board_name = "To Do Test"):
     board = TrelloBoard(board_name)
     board.archive_cards()
