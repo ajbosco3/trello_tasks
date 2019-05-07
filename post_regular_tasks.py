@@ -192,6 +192,7 @@ class TrelloBoard:
             requests.put(url, querystring)
 
     def sort_all_lists(self):
+        self.get_cards()
         groups = defaultdict(list)
         for card in self.cards:
             groups[card["list"]].append(card)
