@@ -15,7 +15,8 @@ def localize_ts(timestamp):
     if timestamp:
         utc = tz.tzutc()
         ct = tz.gettz('America/Chicago')
-        timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
+        if type(timestamp) != dt.datetime:
+            timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
         timestamp = timestamp.astimezone(ct)
         return timestamp
 
@@ -93,7 +94,7 @@ class TrelloBoard:
         print("Fetched lists")
 
     def assign_list(self, due_date):
-        today = dt.datetime.today()
+        today = localize_ts(dt.datetime.today())
         diff = (due_date - today).days
         diff_map = RangeDict({
             range(0,2): "Today",
@@ -190,6 +191,25 @@ class TrelloBoard:
             url = f"https://api.trello.com/1/cards/{card['id']}"
             querystring = {"key": self.key, "token": self.token, "pos": rank}
             requests.put(url, querystring)
+
+    def rearrange_cards(self):
+        self.get_cards()
+        for card in self.cards:
+            card_list = card["list"]
+            new_list = self.lists[self.assign_list(card["due"])]
+            if card_list != new_list:
+                self.move_card(card["id"], new_list)
+                print(f"Moved card {card['name']} to {new_list} (due {card['due']})")
+
+    def move_card(self, card, new_list):
+        url = f"https://api.trello.com/1/cards/{card}"
+        querystring = {
+            "key": self.key,
+            "token": self.token,
+            "idList": new_list
+        }
+        requests.put(url, params=querystring)
+
 
     def sort_all_lists(self):
         self.get_cards()
