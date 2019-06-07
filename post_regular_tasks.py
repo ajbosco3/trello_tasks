@@ -258,11 +258,9 @@ class TrelloBoard:
             requests.put(url, params=querystring)
 
 
-def main(board_name = "To Do Test"):
+def main(board_name = "To Do List"):
     board = TrelloBoard(board_name)
-    board.archive_cards()
-    board.post_tasks()
-    board.sort_all_lists()
+    board.daily_update()
     
 if __name__ == "__main__":
     main()
