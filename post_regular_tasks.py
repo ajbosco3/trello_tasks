@@ -29,6 +29,13 @@ class TrelloBoard:
         self.get_lists()
         self.import_tasks()
 
+    def daily_update(self):
+        self.archive_cards()
+        self.post_tasks()
+        self.update_today()
+        self.rearrange_cards()
+        self.sort_all_lists()
+
     def get_credentials(self):
         with open("credentials.json", "r") as f:
             creds = json.load(f)
@@ -236,6 +243,19 @@ class TrelloBoard:
         self.tasks.append(task)
         self.update_task_file()
 
+    def update_today(self):
+        self.get_cards()
+        today_list = self.lists["Today"]
+        today_cards = [card["id"] for card in self.cards if card["list"] == today_list]
+        today = dt.datetime.today().replace(hour=23,minute=59,second=0)
+        for card in today_cards:
+            url = f"https://api.trello.com/1/cards/{card}"
+            querystring = {
+                "key": self.key,
+                "token": self.token,
+                "due": localize_ts(today)
+            }
+            requests.put(url, params=querystring)
 
 
 def main(board_name = "To Do Test"):
