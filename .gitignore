@@ -3,4 +3,8 @@ credentials.json
 regular_tasks.json
 __pycache__/post_regular_tasks.cpython-37.pyc
 regular_tasks_test.json
+<<<<<<< HEAD
 .vscode
+=======
+settings.json
+>>>>>>> hour_range

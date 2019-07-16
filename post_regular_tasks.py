@@ -101,12 +101,18 @@ class TrelloBoard:
         print("Fetched lists")
 
     def assign_list(self, due_date):
-        today = localize_ts(dt.datetime.today())
-        diff = (due_date - today).days
+        now = localize_ts(dt.datetime.now())
+        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
+        diff = int((due_date - now).total_seconds()//3600)
+
+        hours_to_sunday = int((sunday - now).total_seconds()//3600)
+        if hours_to_sunday < 28:
+            hours_to_sunday += 168
+
         diff_map = RangeDict({
-            range(0,2): "Today",
-            range(2,8): "This Week",
-            range(8,30): "This Month"
+            range(0,29): "Today",
+            range(29,hours_to_sunday+1): "This Week",
+            range(hours_to_sunday,720): "This Month"
         })
         card_list = diff_map.get(diff, "Beyond")
         return card_list
