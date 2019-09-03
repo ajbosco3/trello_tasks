@@ -119,7 +119,7 @@ class TrelloBoard:
     
     def create_card(self, task):
         due_date = self.assign_due_date(task["date_info"])
-        card_list = self.assign_list(localize_ts(due_date))
+        card_list = self.assign_list(due_date)
         list_id = self.lists[card_list]
         label_ids = [self.labels[label] for label in task["labels"]]
         card_name = task["name"]
@@ -148,7 +148,7 @@ class TrelloBoard:
         if date_info["advance"]:
             due_date = next_sunday(due_date)
 
-        return due_date
+        return localize_ts(due_date)
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
