@@ -193,8 +193,6 @@ class TrelloBoard:
 
     def sort_list(self, card_list):
         prefer_order = lambda x: (
-            not x["name"] == "Groceries",
-            x["name"] in self.task_names,
             x["due"],
             self.label_names[x["labels"][0]],
             x["name"])
