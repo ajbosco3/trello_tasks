@@ -193,8 +193,8 @@ class TrelloBoard:
 
     def sort_list(self, card_list):
         prefer_order = lambda x: (
-            x["due"],
             self.label_names[x["labels"][0]],
+            x["due"],
             x["name"])
         card_list = sorted(card_list, key=prefer_order)
 
