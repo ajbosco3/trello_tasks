@@ -126,6 +126,7 @@ class TrelloBoard:
         list_id = self.lists[card_list]
         label_ids = [self.labels[label] for label in task["labels"]]
         card_name = task["name"]
+        last_complete = f"#Last complete:\n{task['date_info']['last_complete']}"
         
         url = "https://api.trello.com/1/cards"
         querystring = {
@@ -133,6 +134,7 @@ class TrelloBoard:
             "name": card_name,
             "idLabels": label_ids,
             "due": due_date,
+            "desc": last_complete,
             "key": self.key,
             "token": self.token
         }
