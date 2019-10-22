@@ -4,6 +4,8 @@ import requests
 from dateutil import tz
 from collections import defaultdict
 
+from config import EXEMPT
+
 class RangeDict(dict):
     def get(self, item, default=None):
         for key in self:
@@ -98,6 +100,7 @@ class TrelloBoard:
         lists_ = r.json()
         lists = {list_["name"]: list_["id"] for list_ in lists_}
         self.lists = lists
+        self.exempt = [list_id for name, list_id in self.lists.items() if name in EXEMPT]
         print("Fetched lists")
 
     def assign_list(self, due_date):
@@ -208,7 +211,7 @@ class TrelloBoard:
         for card in self.cards:
             card_list = card["list"]
             new_list = self.lists[self.assign_list(card["due"])]
-            if card_list != new_list:
+            if card_list != new_list and card_list not in self.exempt:
                 self.move_card(card["id"], new_list)
                 print(f"Moved card {card['name']} to {new_list} (due {card['due']})")
 
