@@ -137,7 +137,7 @@ class TrelloBoard:
         card_name = task["name"]
         body = {
             "last_complete": task['date_info']['last_complete'],
-            "time_estimate": task['time_estimate']"
+            "time_estimate": task['time_estimate']
         }
         
         url = "https://api.trello.com/1/cards"
