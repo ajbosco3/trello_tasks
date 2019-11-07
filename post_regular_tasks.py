@@ -22,12 +22,18 @@ def localize_ts(timestamp):
         timestamp = timestamp.astimezone(ct)
         return timestamp
 
+def title_case(string):
+    first = string[0]
+    rest = string[1:]
+    title_str = f"{first.upper()}{rest}"
+    return title_str
+
 def format_desc(desc_dict):
+    print(desc_dict)
     desc_struct = []
     for title, val in desc_dict.items():
-        title = title.replace("_"," ").title()
-        desc_struct.append(f"#{title}:")
-        desc_struct.append(val)
+        title = title_case(title.replace("_"," "))
+        desc_struct.append(f"**{title}:** {val}")
     desc = "\n".join(desc_struct)
     return desc
 
