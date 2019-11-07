@@ -22,6 +22,15 @@ def localize_ts(timestamp):
         timestamp = timestamp.astimezone(ct)
         return timestamp
 
+def format_desc(desc_dict):
+    desc_struct = []
+    for title, val in desc_dict.items():
+        title = title.replace("_"," ").title()
+        desc_struct.append(f"#{title}:")
+        desc_struct.append(val)
+    desc = "\n".join(desc_struct)
+    return desc
+
 class TrelloBoard:
     def __init__(self, board_name):
         self.get_credentials()
@@ -126,7 +135,10 @@ class TrelloBoard:
         list_id = self.lists[card_list]
         label_ids = [self.labels[label] for label in task["labels"]]
         card_name = task["name"]
-        last_complete = f"#Last complete:\n{task['date_info']['last_complete']}"
+        body = {
+            "last_complete": task['date_info']['last_complete'],
+            "time_estimate": task['time_estimate']"
+        }
         
         url = "https://api.trello.com/1/cards"
         querystring = {
@@ -134,7 +146,7 @@ class TrelloBoard:
             "name": card_name,
             "idLabels": label_ids,
             "due": due_date,
-            "desc": last_complete,
+            "desc": format_desc(body),
             "key": self.key,
             "token": self.token
         }
