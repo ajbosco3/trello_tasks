@@ -240,6 +240,7 @@ class TrelloBoard:
         labels = input("Enter label names, separated by comma: ").split(",")
         delta = int(input("Enter task frequency: "))
         advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
+        est = int(input("Enter time estimate (in minutes): "))
         task = {
             "name": name,
             "labels": labels,
@@ -247,7 +248,8 @@ class TrelloBoard:
                 "delta": delta,
                 "advance": advance,
                 "last_complete": None
-            }
+            },
+        "time_estimate": est
         }
         self.tasks.append(task)
         self.update_task_file()
