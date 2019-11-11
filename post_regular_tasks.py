@@ -34,7 +34,7 @@ def format_desc(desc_dict):
     for title, val in desc_dict.items():
         title = title_case(title.replace("_"," "))
         desc_struct.append(f"**{title}:** {val}")
-    desc = f"#Stats\n{'\n'.join(desc_struct)}"
+    desc = "#Stats\n{}".format('\n'.join(desc_struct))
     return desc
 
 class TrelloBoard:
