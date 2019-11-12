@@ -240,6 +240,14 @@ class TrelloBoard:
             card[key] = val
         return card
 
+    def list_time_sum(self, list_id):
+        card_list = get_list_card(list_id)
+        sprint_time = 0
+        for card in card_list:
+            card = get_stats(card)
+            sprint_time += card["time estimate"]
+        return sprint_time
+
     def rearrange_cards(self):
         self.get_cards()
         for card in self.cards:
