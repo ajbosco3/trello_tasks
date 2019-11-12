@@ -226,6 +226,12 @@ class TrelloBoard:
             querystring = {"key": self.key, "token": self.token, "pos": rank}
             requests.put(url, querystring)
 
+    def get_list_cards(self, list_id):
+        url = 'https://api.trello.com/1/lists/{}/cards'
+        querystring = {"key": board.key, "token": board.token, "fields": ["id","name","desc"]}
+        list_cards = requests.get(url, params=querystring).json()
+        return list_cards
+
     def rearrange_cards(self):
         self.get_cards()
         for card in self.cards:
