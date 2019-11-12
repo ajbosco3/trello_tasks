@@ -227,8 +227,8 @@ class TrelloBoard:
             requests.put(url, querystring)
 
     def get_list_cards(self, list_id):
-        url = 'https://api.trello.com/1/lists/{}/cards'
-        querystring = {"key": board.key, "token": board.token, "fields": ["id","name","desc"]}
+        url = f'https://api.trello.com/1/lists/{list_id}/cards'
+        querystring = {"key": self.key, "token": self.token, "fields": ["id","name","desc"]}
         list_cards = requests.get(url, params=querystring).json()
         return list_cards
 
@@ -241,10 +241,10 @@ class TrelloBoard:
         return card
 
     def list_time_sum(self, list_id):
-        card_list = get_list_card(list_id)
+        card_list = self.get_list_cards(list_id)
         sprint_time = 0
         for card in card_list:
-            card = get_stats(card)
+            card = self.get_stats(card)
             sprint_time += card["time estimate"]
         return sprint_time
 
