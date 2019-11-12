@@ -232,6 +232,14 @@ class TrelloBoard:
         list_cards = requests.get(url, params=querystring).json()
         return list_cards
 
+    def get_stats(self, card):
+        stat_split = card["desc"].split("#Stats\n")[1].replace("**","").split("\n")
+        for stat in stat_split:
+            key, val = stat.split(": ")
+            val = int(val) if val.isnumeric() else val
+            card[key] = val
+        return card
+
     def rearrange_cards(self):
         self.get_cards()
         for card in self.cards:
