@@ -37,7 +37,63 @@ def format_desc(desc_dict):
     desc = "#Stats\n{}".format('\n'.join(desc_struct))
     return desc
 
-class TrelloBoard:
+class List:
+    def __init__(self, board, list_id):
+        self.board = board
+        self.list_id = list_id
+        self.name = next(name for name, list_id in board.lists.items() if list_id == self.list_id)
+        self.get_list_cards()
+
+    def get_list_cards(self):
+        url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
+        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc"]}
+        self.cards = requests.get(url, params=querystring).json()
+
+    def sort_list(self):
+        prefer_order = lambda x: (
+            self.label_names[x["labels"][0]],
+            x["due"],
+            x["name"])
+        self.cards = sorted(self.cards, key=prefer_order)
+
+        for rank, card in enumerate(self.cards, start=1):
+            url = f"https://api.trello.com/1/cards/{card['id']}"
+            querystring = {"key": self.board.key, "token": self.board.token, "pos": rank}
+            requests.put(url, querystring)
+
+    def time_sum(self, breakout=False):
+        sprint_time = 0
+        for card in self.cards:
+            card = self.get_stats(card)
+            sprint_time += card["time estimate"]
+        if breakout:
+            card_list = sorted(card_list, key=lambda x: x["time estimate"], reverse=True)
+            for card in card_list:
+                print(card["name"], card["time estimate"])
+        return sprint_time
+
+    class Card:
+        def __init__(self, list):
+            #
+            #
+            #
+            pass
+
+        def assign_list(self):
+            pass
+        
+        def assign_due_date(self):
+            pass
+
+        def move_card(self):
+            pass
+
+        def get_stats(self):
+            pass
+
+    
+
+class Board:
     def __init__(self, board_name):
         self.get_credentials()
         self.get_board_id(board_name)
