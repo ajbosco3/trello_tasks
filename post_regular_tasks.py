@@ -3,6 +3,7 @@ import json
 import requests
 from dateutil import tz
 from collections import defaultdict
+from pathlib import Path
 
 from config import EXEMPT
 
@@ -39,6 +40,10 @@ def format_desc(desc_dict):
 
 class TrelloBoard:
     def __init__(self, board_name):
+        base_path = Path(__file__).parent
+        self.cred_file = (base_path / "credentials.json")
+        self.task_file = (base_path / "regular_tasks.json")
+
         self.get_credentials()
         self.get_board_id(board_name)
         self.get_cards()
@@ -54,7 +59,7 @@ class TrelloBoard:
         self.sort_all_lists()
 
     def get_credentials(self):
-        with open("credentials.json", "r") as f:
+        with open(self.cred_file, "r") as f:
             creds = json.load(f)
         self.key = creds["key"]
         self.token = creds["token"]
@@ -174,7 +179,7 @@ class TrelloBoard:
         return localize_ts(due_date)
 
     def import_tasks(self):
-        with open("regular_tasks.json", "r") as f:
+        with open(self.task_file, "r") as f:
             self.tasks = json.load(f)
         self.task_names = [task["name"] for task in self.tasks]
 
@@ -187,7 +192,7 @@ class TrelloBoard:
                 print(f"Card skipped: {task['name']}")
 
     def update_task_file(self):
-        with open("regular_tasks.json", "w") as f:
+        with open(self.task_file, "w") as f:
             json.dump(self.tasks, f)
 
     def log_date(self, list_cards):
