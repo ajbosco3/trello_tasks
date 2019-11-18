@@ -250,11 +250,11 @@ class TrelloBoard:
         sprint_time = 0
         for card in card_list:
             card = self.get_stats(card)
-            sprint_time += card["time estimate"]
+            sprint_time += card["Time estimate"]
         if breakout:
-            card_list = sorted(card_list, key=lambda x: x["time estimate"], reverse=True)
+            card_list = sorted(card_list, key=lambda x: x["Time estimate"], reverse=True)
             for card in card_list:
-                print(card["name"], card["time estimate"])
+                print(card["name"], card["Time estimate"])
         return sprint_time
 
     def rearrange_cards(self):
