@@ -45,9 +45,14 @@ class List:
         self.get_list_cards()
 
     def get_list_cards(self):
+        self.cards = {}
         url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
-        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc"]}
-        self.cards = requests.get(url, params=querystring).json()
+        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","listid"]}
+        card_list = requests.get(url, params=querystring).json()
+        for card_input in card_list:
+            card_name = card_input["name"]
+            self.cards[card_name] = Card(card_input)
+
 
     def sort_list(self):
         prefer_order = lambda x: (
@@ -72,24 +77,24 @@ class List:
                 print(card["name"], card["time estimate"])
         return sprint_time
 
-    class Card:
-        def __init__(self, list):
-            #
-            #
-            #
-            pass
+class Card:
+    def __init__(self, card_input):
+        #
+        #
+        #
+        pass
 
-        def assign_list(self):
-            pass
-        
-        def assign_due_date(self):
-            pass
+    def assign_list(self):
+        pass
+    
+    def assign_due_date(self):
+        pass
 
-        def move_card(self):
-            pass
+    def move_card(self):
+        pass
 
-        def get_stats(self):
-            pass
+    def get_stats(self):
+        pass
 
     
 
