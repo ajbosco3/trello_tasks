@@ -43,15 +43,15 @@ class List:
         self.list_id = list_id
         self.name = next(name for name, list_id in board.lists.items() if list_id == self.list_id)
         self.get_list_cards()
+        self.time_sum()
 
     def get_list_cards(self):
-        self.cards = {}
+        self.cards = []
         url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
-        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","listid"]}
+        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","idList"]}
         card_list = requests.get(url, params=querystring).json()
         for card_input in card_list:
-            card_name = card_input["name"]
-            self.cards[card_name] = Card(card_input)
+            self.cards.append(Card(card_input))
 
 
     def sort_list(self):
@@ -67,15 +67,13 @@ class List:
             requests.put(url, querystring)
 
     def time_sum(self, breakout=False):
-        sprint_time = 0
+        self.sprint_time = 0
         for card in self.cards:
-            card = self.get_stats(card)
-            sprint_time += card["time estimate"]
+            self.sprint_time += card.stats["Time estimate"]
         if breakout:
-            card_list = sorted(card_list, key=lambda x: x["time estimate"], reverse=True)
-            for card in card_list:
-                print(card["name"], card["time estimate"])
-        return sprint_time
+            card_list = sorted(self.cards, key=lambda x: x.stats["Time estimate"], reverse=True)
+            for sort_card in card_list:
+                print(sort_card.name, sort_card.stats["Time estimate"])
 
 class Card:
     def __init__(self, card_input):
