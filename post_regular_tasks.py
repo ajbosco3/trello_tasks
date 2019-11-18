@@ -79,10 +79,17 @@ class List:
 
 class Card:
     def __init__(self, card_input):
-        #
-        #
-        #
-        pass
+        for key, val in card_input.items():
+            self.__setattr__(key, val)
+        self._get_stats()
+
+    def _get_stats(self):
+        self.stats = {}
+        stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
+        for stat in stat_split:
+            key, val = stat.split(": ")
+            val = int(val) if val.isnumeric() else val
+            self.stats[key] = val
 
     def assign_list(self):
         pass
@@ -93,8 +100,7 @@ class Card:
     def move_card(self):
         pass
 
-    def get_stats(self):
-        pass
+
 
     
 
