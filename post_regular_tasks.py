@@ -48,9 +48,10 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
-        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","idList"]}
+        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","idList","due"]}
         card_list = requests.get(url, params=querystring).json()
         for card_input in card_list:
+            card_input["due"] = localize_ts(card_input["due"])
             self.cards.append(Card(card_input))
 
 
@@ -74,6 +75,27 @@ class List:
             card_list = sorted(self.cards, key=lambda x: x.stats["Time estimate"], reverse=True)
             for sort_card in card_list:
                 print(sort_card.name, sort_card.stats["Time estimate"])
+    
+    def _log_date(self):
+        for card in self.cards:
+            due_date = card.due.strftime("%Y-%m-%d")
+            for i, task in enumerate(self.board.tasks):
+                if card.name == task["name"]:
+                    self.board.tasks[i]["date_info"]["last_complete"] = due_date
+
+    def archive_cards(self):
+        url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
+        querystring = {
+            "key": self.board.key,
+            "token": self.board.token
+        }
+        requests.post(url, params=querystring)
+        
+        card_names = [card.name for card in self.cards]
+        print(f"All cards archived in list {self.name}: {card_names}")
+        self._log_date()
+        #self.board.update_task_file()
+        self.board.get_cards()
 
 class Card:
     def __init__(self, card_input):
