@@ -216,14 +216,12 @@ class Board:
         r = requests.get(url, params=querystring)
         lists_ = r.json()
 
-        self.exempt = []
         self.lists = {}
         for list_input in lists_:
             list_input["board"] = self
+            list_input["exempt"] = True if list_input["name"] in EXEMPT else False
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
-            if board_list.name in EXEMPT:
-                self.exempt.append(board_list.id)
         print("Fetched lists")
 
     def assign_list(self, due_date):
@@ -365,7 +363,7 @@ class Board:
         for card in self.cards:
             card_list = card["list"]
             new_list = self.lists[self.assign_list(card["due"])]
-            if card_list != new_list and card_list not in self.exempt:
+            if card_list != new_list and not card_list.exempt:
                 self.move_card(card["id"], new_list)
                 print(f"Moved card {card['name']} to {new_list} (due {card['due']})")
 
