@@ -113,7 +113,21 @@ class Card:
             self.stats[key] = val
 
     def assign_list(self):
-        pass
+        now = localize_ts(dt.datetime.now())
+        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
+        diff = int((self.due - now).total_seconds()//3600)
+
+        hours_to_sunday = int((sunday - now).total_seconds()//3600)
+        if hours_to_sunday < 28:
+            hours_to_sunday += 168
+
+        diff_map = RangeDict({
+            range(0,29): "Today",
+            range(29,hours_to_sunday+1): "This Week",
+            range(hours_to_sunday,720): "This Month"
+        })
+        name = diff_map.get(diff, "Beyond")
+        self.card_list = {"name": name, "id": self.list.board.lists[name]}
     
     def assign_due_date(self):
         pass
@@ -207,7 +221,7 @@ class Board:
         for list_input in lists_:
             list_input["board"] = self
             board_list = List(list_input)
-            self.lists.append(board_list)
+            self.lists.append({board_list.name: board_list})
             if board_list.name in EXEMPT:
                 self.exempt.append(board_list.id)
         print("Fetched lists")
