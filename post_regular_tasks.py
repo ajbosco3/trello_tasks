@@ -217,11 +217,11 @@ class Board:
         lists_ = r.json()
 
         self.exempt = []
-        self.lists = []
+        self.lists = {}
         for list_input in lists_:
             list_input["board"] = self
             board_list = List(list_input)
-            self.lists.append({board_list.name: board_list})
+            self.lists[board_list.name] = board_list
             if board_list.name in EXEMPT:
                 self.exempt.append(board_list.id)
         print("Fetched lists")
