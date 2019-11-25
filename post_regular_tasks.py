@@ -48,10 +48,11 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
-        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","idList","due"]}
+        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","due"]}
         card_list = requests.get(url, params=querystring).json()
         for card_input in card_list:
             card_input["due"] = localize_ts(card_input["due"])
+            card_input["list"] = self
             self.cards.append(Card(card_input))
 
 
