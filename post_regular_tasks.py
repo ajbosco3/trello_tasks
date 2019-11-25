@@ -42,6 +42,7 @@ class List:
         self.board = list_input["board"]
         self.id = list_input["id"]
         self.name = list_input["name"]
+        self.exempt = list_input["exempt"]
         self.get_list_cards()
         self.time_sum()
 
