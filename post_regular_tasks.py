@@ -38,16 +38,16 @@ def format_desc(desc_dict):
     return desc
 
 class List:
-    def __init__(self, board, list_id):
-        self.board = board
-        self.list_id = list_id
-        self.name = next(name for name, list_id in board.lists.items() if list_id == self.list_id)
+    def __init__(self, list_input):
+        self.board = list_input["board"]
+        self.id = list_input["id"]
+        self.name = list_input["name"]
         self.get_list_cards()
         self.time_sum()
 
     def get_list_cards(self):
         self.cards = []
-        url = f'https://api.trello.com/1/lists/{self.list_id}/cards'
+        url = f'https://api.trello.com/1/lists/{self.id}/cards'
         querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","due"]}
         card_list = requests.get(url, params=querystring).json()
         for card_input in card_list:
@@ -201,9 +201,15 @@ class Board:
         }
         r = requests.get(url, params=querystring)
         lists_ = r.json()
-        lists = {list_["name"]: list_["id"] for list_ in lists_}
-        self.lists = lists
-        self.exempt = [list_id for name, list_id in self.lists.items() if name in EXEMPT]
+
+        self.exempt = []
+        self.lists = []
+        for list_input in lists_:
+            list_input["board"] = self
+            board_list = List(list_input)
+            self.lists.append(board_list)
+            if board_list.name in EXEMPT:
+                self.exempt.append(board_list.id)
         print("Fetched lists")
 
     def assign_list(self, due_date):
