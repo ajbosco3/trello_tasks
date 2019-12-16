@@ -131,10 +131,27 @@ class Card:
         self.card_list = {"name": name, "id": self.list.board.lists[name]}
     
     def assign_due_date(self):
-        pass
+        if self.date_info["last_complete"]:
+            base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
+        else:
+            base = dt.datetime.today()
+        base = base.replace(hour=23,minute=59,second=0)
+        raw_due_date = base + dt.timedelta(self.date_info["delta"])
+
+        next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
+        if date_info["advance"]:
+            raw_due_date = next_sunday(raw_due_date)
+        
+        self.due = localize_ts(raw_due_date)
 
     def move_card(self):
-        pass
+        url = f"https://api.trello.com/1/cards/{card}"
+        querystring = {
+            "key": self.key,
+            "token": self.token,
+            "idList": new_list
+        }
+        requests.put(url, params=querystring)
 
 
 
