@@ -2,8 +2,10 @@ import datetime as dt
 import json
 from collections import defaultdict
 
-from config import EXEMPT
+import requests
+
 import helpers as hlp
+from config import EXEMPT
 from helpers import RangeDict
 
 

@@ -1,6 +1,8 @@
-from dateutil import tz
 import requests
-import config
+from dateutil import tz
+
+from config import QUERYSTRING
+
 
 class RangeDict(dict):
     def get(self, item, default=None):
@@ -26,3 +28,13 @@ def format_desc(desc_dict):
         desc_struct.append(f"**{title}:** {val}")
     desc = "#Stats\n{}".format('\n'.join(desc_struct))
     return desc
+
+def request(r_type, url, **kwargs):
+    querystring = QUERYSTRING.copy()
+    r_type = r_type.upper()
+
+    for key, val in kwargs.items():
+        querystring[key] = val
+    r = requests.request(r_type, url)
+    if r_type == "GET":
+        return r.json()
