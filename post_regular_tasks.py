@@ -233,7 +233,7 @@ class TrelloBoard:
 
     def get_list_cards(self, list_id):
         url = f'https://api.trello.com/1/lists/{list_id}/cards'
-        querystring = {"key": self.key, "token": self.token, "fields": ["id","name","desc"]}
+        querystring = {"key": self.key, "token": self.token, "fields": ["id","name","desc","labels"]}
         list_cards = requests.get(url, params=querystring).json()
         return list_cards
 
@@ -244,6 +244,15 @@ class TrelloBoard:
             val = int(val) if val.isnumeric() else val
             card[key] = val
         return card
+
+    def list_time_summary(self, list_id):
+        card_list = self.get_list_cards(list_id)
+        by_label = defaultdict(int)
+        for card in card_list:
+            card = self.get_stats(card)
+            label = card["labels"][0]["name"]
+            by_label[label] += card["Time estimate"]
+        return by_label
 
     def list_time_sum(self, list_id, breakout=False):
         card_list = self.get_list_cards(list_id)
