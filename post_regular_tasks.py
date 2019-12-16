@@ -1,41 +1,11 @@
 import datetime as dt
 import json
-import requests
-from dateutil import tz
 from collections import defaultdict
 
 from config import EXEMPT
+import helpers as hlp
+from helpers import RangeDict
 
-class RangeDict(dict):
-    def get(self, item, default=None):
-        for key in self:
-            if item in key:
-                return self[key]
-        return default
-
-def localize_ts(timestamp):
-    if timestamp:
-        utc = tz.tzutc()
-        ct = tz.gettz('America/Chicago')
-        if type(timestamp) != dt.datetime:
-            timestamp = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=utc)
-        timestamp = timestamp.astimezone(ct)
-        return timestamp
-
-def title_case(string):
-    first = string[0]
-    rest = string[1:]
-    title_str = f"{first.upper()}{rest}"
-    return title_str
-
-def format_desc(desc_dict):
-    print(desc_dict)
-    desc_struct = []
-    for title, val in desc_dict.items():
-        title = title_case(title.replace("_"," "))
-        desc_struct.append(f"**{title}:** {val}")
-    desc = "#Stats\n{}".format('\n'.join(desc_struct))
-    return desc
 
 class List:
     def __init__(self, list_input):
@@ -52,7 +22,7 @@ class List:
         querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","due"]}
         card_list = requests.get(url, params=querystring).json()
         for card_input in card_list:
-            card_input["due"] = localize_ts(card_input["due"])
+            card_input["due"] = hlp.localize_ts(card_input["due"])
             card_input["list"] = self
             self.cards.append(Card(card_input))
 
@@ -114,7 +84,7 @@ class Card:
             self.stats[key] = val
 
     def assign_list(self):
-        now = localize_ts(dt.datetime.now())
+        now = hlp.localize_ts(dt.datetime.now())
         sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
         diff = int((self.due - now).total_seconds()//3600)
 
@@ -142,7 +112,7 @@ class Card:
         if date_info["advance"]:
             raw_due_date = next_sunday(raw_due_date)
         
-        self.due = localize_ts(raw_due_date)
+        self.due = hlp.localize_ts(raw_due_date)
 
     def move_card(self):
         url = f"https://api.trello.com/1/cards/{card}"
@@ -206,7 +176,7 @@ class Board:
                 "id": card["id"],
                 "list": card["idList"],
                 "labels": card["idLabels"],
-                "due": localize_ts(card["due"]),
+                "due": hlp.localize_ts(card["due"]),
             }
             for card in cards]
         self.cards = names
@@ -243,7 +213,7 @@ class Board:
         print("Fetched lists")
 
     def assign_list(self, due_date):
-        now = localize_ts(dt.datetime.now())
+        now = hlp.localize_ts(dt.datetime.now())
         sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
         diff = int((due_date - now).total_seconds()//3600)
 
@@ -276,7 +246,7 @@ class Board:
             "name": card_name,
             "idLabels": label_ids,
             "due": due_date,
-            "desc": format_desc(body),
+            "desc": hlp.format_desc(body),
             "key": self.key,
             "token": self.token
         }
@@ -295,7 +265,7 @@ class Board:
         if date_info["advance"]:
             due_date = next_sunday(due_date)
 
-        return localize_ts(due_date)
+        return hlp.localize_ts(due_date)
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
@@ -432,7 +402,7 @@ class Board:
             querystring = {
                 "key": self.key,
                 "token": self.token,
-                "due": localize_ts(today)
+                "due": hlp.localize_ts(today)
             }
             requests.put(url, params=querystring)
 
