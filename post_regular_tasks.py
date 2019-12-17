@@ -21,8 +21,8 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.id}/cards'
-        querystring = {"key": self.board.key, "token": self.board.token, "fields": ["id","name","desc","due"]}
-        card_list = requests.get(url, params=querystring).json()
+        fields = ["id","name","desc","due"]
+        card_list = hlp.request("GET", url, fields=fields)
         for card_input in card_list:
             card_input["due"] = hlp.localize_ts(card_input["due"])
             card_input["list"] = self
