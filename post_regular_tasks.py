@@ -135,12 +135,6 @@ class Board:
         self.rearrange_cards()
         self.sort_all_lists()
 
-    def get_credentials(self):
-        with open("credentials.json", "r") as f:
-            creds = json.load(f)
-        self.key = creds["key"]
-        self.token = creds["token"]
-
     def get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
         boards = hlp.request("GET", url)
