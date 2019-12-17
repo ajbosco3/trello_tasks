@@ -121,7 +121,6 @@ class Card:
 
 class Board:
     def __init__(self, board_name):
-        self.get_credentials()
         self.get_board_id(board_name)
         self.get_cards()
         self.get_labels()
@@ -167,7 +166,7 @@ class Board:
 
     def get_lists(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/lists/"
-        lists = hlp.request("GET", url).json()
+        lists_ = hlp.request("GET", url).json()
 
         self.lists = {}
         for list_input in lists_:
@@ -176,23 +175,6 @@ class Board:
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
         print("Fetched lists")
-
-    def assign_list(self, due_date):
-        now = hlp.localize_ts(dt.datetime.now())
-        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
-        diff = int((due_date - now).total_seconds()//3600)
-
-        hours_to_sunday = int((sunday - now).total_seconds()//3600)
-        if hours_to_sunday < 28:
-            hours_to_sunday += 168
-
-        diff_map = RangeDict({
-            range(0,29): "Today",
-            range(29,hours_to_sunday+1): "This Week",
-            range(hours_to_sunday,720): "This Month"
-        })
-        card_list = diff_map.get(diff, "Beyond")
-        return card_list
     
     def create_card(self, task):
         due_date = self.assign_due_date(task["date_info"])
@@ -376,4 +358,3 @@ def main(board_name = "To Do List"):
     
 if __name__ == "__main__":
     main()
-s
