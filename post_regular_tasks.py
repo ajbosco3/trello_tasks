@@ -38,8 +38,7 @@ class List:
 
         for rank, card in enumerate(self.cards, start=1):
             url = f"https://api.trello.com/1/cards/{card['id']}"
-            querystring = {"key": self.board.key, "token": self.board.token, "pos": rank}
-            requests.put(url, querystring)
+            hlp.request("PUT", url, pos=rank)
 
     def time_sum(self, breakout=False):
         self.sprint_time = 0
@@ -59,11 +58,7 @@ class List:
 
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
-        querystring = {
-            "key": self.board.key,
-            "token": self.board.token
-        }
-        requests.post(url, params=querystring)
+        hlp.request("POST", url)
         
         card_names = [card.name for card in self.cards]
         print(f"All cards archived in list {self.name}: {card_names}")
@@ -116,14 +111,9 @@ class Card:
         
         self.due = hlp.localize_ts(raw_due_date)
 
-    def move_card(self):
+    def move_card(self, new_list):
         url = f"https://api.trello.com/1/cards/{card}"
-        querystring = {
-            "key": self.key,
-            "token": self.token,
-            "idList": new_list
-        }
-        requests.put(url, params=querystring)
+        hlp.request("PUT", url, idList=new_list)
 
 
 
@@ -153,24 +143,13 @@ class Board:
 
     def get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
-        querystring = {
-            "key": self.key,
-            "token": self.token
-        }
-        r = requests.get(url, params=querystring)
-        boards = r.json()
+        boards = hlp.request("GET", url)
         board_id = [board["id"] for board in boards if board["name"] == board_name][0]
         self.board_id = board_id
         
     def get_cards(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/cards/"
-        querystring = {
-            "key": self.key,
-            "token": self.token,
-            "visible": "true"
-        }
-        r = requests.get(url, params=querystring)
-        cards = r.json()
+        cards = hlp.request("GET", url, visible="true").json()
         
         names = [
             {
@@ -186,12 +165,7 @@ class Board:
 
     def get_labels(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
-        querystring = {
-            "key": self.key,
-            "token": self.token
-        }
-        r = requests.get(url, params=querystring)
-        labels = r.json()
+        labels = hlp.request("GET", url).json()
         label_map = {label["name"]: label["id"] for label in labels}
         self.labels = label_map
         self.label_names = {id: name for name, id in self.labels.items()}
@@ -199,12 +173,7 @@ class Board:
 
     def get_lists(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/lists/"
-        querystring = {
-            "key": self.key,
-            "token": self.token
-        }
-        r = requests.get(url, params=querystring)
-        lists_ = r.json()
+        lists = hlp.request("GET", url).json()
 
         self.lists = {}
         for list_input in lists_:
@@ -243,16 +212,14 @@ class Board:
         }
         
         url = "https://api.trello.com/1/cards"
-        querystring = {
+        params = {
             "idList": list_id,
             "name": card_name,
             "idLabels": label_ids,
             "due": due_date,
-            "desc": hlp.format_desc(body),
-            "key": self.key,
-            "token": self.token
+            "desc": hlp.format_desc(body)
         }
-        requests.post(url, params=querystring)
+        hlp.request("POST", url, **params)
         print(f"Posted card: {card_name} to list {card_list} (due {due_date.date()})")
 
     def assign_due_date(self, date_info):
@@ -415,3 +382,4 @@ def main(board_name = "To Do List"):
     
 if __name__ == "__main__":
     main()
+s
