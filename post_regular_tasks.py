@@ -8,86 +8,6 @@ import helpers as hlp
 from config import EXEMPT
 from helpers import RangeDict
 
-
-class List:
-    def __init__(self, list_input):
-        self.board = list_input["board"]
-        self.id = list_input["id"]
-        self.name = list_input["name"]
-        self.exempt = list_input["exempt"]
-        self.get_list_cards()
-        self.time_sum()
-
-    def get_list_cards(self):
-        self.cards = []
-        url = f'https://api.trello.com/1/lists/{self.id}/cards'
-        fields = ["id","name","desc","due"]
-        card_list = hlp.request("GET", url, fields=fields)
-        for card_input in card_list:
-            card_input["due"] = hlp.localize_ts(card_input["due"])
-            card_input["list"] = self
-            self.cards.append(Card(card_input))
-
-
-    def sort_list(self):
-        prefer_order = lambda x: (
-            self.label_names[x["labels"][0]],
-            x["due"],
-            x["name"])
-        self.cards = sorted(self.cards, key=prefer_order)
-
-        for rank, card in enumerate(self.cards, start=1):
-            url = f"https://api.trello.com/1/cards/{card['id']}"
-            hlp.request("PUT", url, pos=rank)
-
-    def time_sum(self, breakout=False):
-        self.sprint_time = 0
-        for card in self.cards:
-            self.sprint_time += card.stats["Time estimate"]
-        if breakout:
-            card_list = sorted(self.cards, key=lambda x: x.stats["Time estimate"], reverse=True)
-            for sort_card in card_list:
-                print(sort_card.name, sort_card.stats["Time estimate"])
-    
-    def _log_date(self):
-        for card in self.cards:
-            due_date = card.due.strftime("%Y-%m-%d")
-            for i, task in enumerate(self.board.tasks):
-                if card.name == task["name"]:
-                    self.board.tasks[i]["date_info"]["last_complete"] = due_date
-
-    def archive_cards(self):
-        url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
-        hlp.request("POST", url)
-        
-        card_names = [card.name for card in self.cards]
-        print(f"All cards archived in list {self.name}: {card_names}")
-        self._log_date()
-        #self.board.update_task_file()
-        self.board.get_cards()
-
-class Card:
-    def __init__(self, card_input):
-        for key, val in card_input.items():
-            self.__setattr__(key, val)
-        self._get_stats()
-
-    def _get_stats(self):
-        self.stats = {}
-        stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
-        for stat in stat_split:
-            key, val = stat.split(": ")
-            val = int(val) if val.isnumeric() else val
-            self.stats[key] = val
-
-    def move_card(self, new_list):
-        url = f"https://api.trello.com/1/cards/{card}"
-        hlp.request("PUT", url, idList=new_list)
-
-
-
-    
-
 class Board:
     def __init__(self, board_name):
         self.get_board_id(board_name)
@@ -144,42 +64,6 @@ class Board:
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
         print("Fetched lists")
-    
-    def create_card(self, task):
-        due_date = self.assign_due_date(task["date_info"])
-        card_list = self.assign_list(due_date)
-        list_id = self.lists[card_list]
-        label_ids = [self.labels[label] for label in task["labels"]]
-        card_name = task["name"]
-        body = {
-            "last_complete": task['date_info']['last_complete'],
-            "time_estimate": task['time_estimate']
-        }
-        
-        url = "https://api.trello.com/1/cards"
-        params = {
-            "idList": list_id,
-            "name": card_name,
-            "idLabels": label_ids,
-            "due": due_date,
-            "desc": hlp.format_desc(body)
-        }
-        hlp.request("POST", url, **params)
-        print(f"Posted card: {card_name} to list {card_list} (due {due_date.date()})")
-
-    def assign_due_date(self, date_info):
-        if date_info["last_complete"]:
-            base = dt.datetime.strptime(date_info["last_complete"], "%Y-%m-%d")
-        else:
-            base = dt.datetime.today()
-        base = base.replace(hour=23,minute=59,second=0)
-        due_date = base + dt.timedelta(date_info["delta"])
-
-        next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
-        if date_info["advance"]:
-            due_date = next_sunday(due_date)
-
-        return hlp.localize_ts(due_date)
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
@@ -319,6 +203,83 @@ class Board:
                 "due": hlp.localize_ts(today)
             }
             requests.put(url, params=querystring)
+
+
+class List:
+    def __init__(self, list_input):
+        self.board = list_input["board"]
+        self.id = list_input["id"]
+        self.name = list_input["name"]
+        self.exempt = list_input["exempt"]
+        self.get_list_cards()
+        self.time_sum()
+
+    def get_list_cards(self):
+        self.cards = []
+        url = f'https://api.trello.com/1/lists/{self.id}/cards'
+        fields = ["id","name","desc","due"]
+        card_list = hlp.request("GET", url, fields=fields)
+        for card_input in card_list:
+            card_input["due"] = hlp.localize_ts(card_input["due"])
+            card_input["list"] = self
+            self.cards.append(Card(card_input))
+
+
+    def sort_list(self):
+        prefer_order = lambda x: (
+            self.label_names[x["labels"][0]],
+            x["due"],
+            x["name"])
+        self.cards = sorted(self.cards, key=prefer_order)
+
+        for rank, card in enumerate(self.cards, start=1):
+            url = f"https://api.trello.com/1/cards/{card['id']}"
+            hlp.request("PUT", url, pos=rank)
+
+    def time_sum(self, breakout=False):
+        self.sprint_time = 0
+        for card in self.cards:
+            self.sprint_time += card.stats["Time estimate"]
+        if breakout:
+            card_list = sorted(self.cards, key=lambda x: x.stats["Time estimate"], reverse=True)
+            for sort_card in card_list:
+                print(sort_card.name, sort_card.stats["Time estimate"])
+    
+    def _log_date(self):
+        for card in self.cards:
+            due_date = card.due.strftime("%Y-%m-%d")
+            for i, task in enumerate(self.board.tasks):
+                if card.name == task["name"]:
+                    self.board.tasks[i]["date_info"]["last_complete"] = due_date
+
+    def archive_cards(self):
+        url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
+        hlp.request("POST", url)
+        
+        card_names = [card.name for card in self.cards]
+        print(f"All cards archived in list {self.name}: {card_names}")
+        self._log_date()
+        #self.board.update_task_file()
+        self.board.get_cards()
+
+class Card:
+    def __init__(self, card_input):
+        for key, val in card_input.items():
+            self.__setattr__(key, val)
+        self._get_stats()
+
+    def _get_stats(self):
+        self.stats = {}
+        stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
+        for stat in stat_split:
+            key, val = stat.split(": ")
+            val = int(val) if val.isnumeric() else val
+            self.stats[key] = val
+
+    def move_card(self, new_list):
+        url = f"https://api.trello.com/1/cards/{card}"
+        hlp.request("PUT", url, idList=new_list)
+
 
 class Task:
     def __init__(self, board, task):
