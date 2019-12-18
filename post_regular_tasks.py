@@ -381,6 +381,7 @@ class Task:
             "desc": hlp.format_desc(self.card_body)
         }
         hlp.request("POST", url, **params)
+        print(f"Posted card: {self.card_name} to list {self.card_list["name"]} (due {self.due.date()})")
         
 
 def main(board_name = "To Do List"):
