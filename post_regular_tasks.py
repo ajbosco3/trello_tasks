@@ -73,21 +73,8 @@ class Board:
             json.dump(self.tasks, f)
 
     def archive_cards(self, list_name="Done"):
-        list_id = self.lists[list_name]
-        list_cards = [card for card in self.cards if card["list"] == list_id]
-        
-        url = f"https://api.trello.com/1/lists/{list_id}/archiveAllCards"
-        querystring = {
-            "key": self.key,
-            "token": self.token
-        }
-        requests.post(url, params=querystring)
-        
-        card_names = [card["name"] for card in list_cards]
-        print(f"All cards archived in list {list_name}: {card_names}")
-        self.log_date(list_cards)
-        self.update_task_file()
-        self.get_cards()
+        card_list = next(list_ for list_ in self.lists if list_.name == list_name)
+        card_list.archive_cards()
 
     def sort_list(self, card_list):
         prefer_order = lambda x: (
