@@ -11,9 +11,9 @@ from helpers import RangeDict
 class Board:
     def __init__(self, board_name):
         self.get_board_id(board_name)
+        self.get_lists()
         self.get_cards()
         self.get_labels()
-        self.get_lists()
         self.import_tasks()
 
     def daily_update(self):
@@ -30,20 +30,10 @@ class Board:
         self.board_id = board_id
         
     def get_cards(self):
-        url = f"https://api.trello.com/1/boards/{self.board_id}/cards/"
-        cards = hlp.request("GET", url, visible="true").json()
-        
-        names = [
-            {
-                "name": card["name"],
-                "id": card["id"],
-                "list": card["idList"],
-                "labels": card["idLabels"],
-                "due": hlp.localize_ts(card["due"]),
-            }
-            for card in cards]
-        self.cards = names
-        print("Fetched cards")
+        self.card_names = []
+        for list_ in self.lists:
+            for card in list_.cards:
+                self.card_names.append(card["name"])
 
     def get_labels(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
@@ -63,7 +53,7 @@ class Board:
             list_input["exempt"] = True if list_input["name"] in EXEMPT else False
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
-        print("Fetched lists")
+        print("Fetched lists and cards.")
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
