@@ -11,9 +11,9 @@ from helpers import RangeDict
 class Board:
     def __init__(self, board_name):
         self.get_board_id(board_name)
+        self.get_labels()
         self.get_lists()
         self.get_cards()
-        self.get_labels()
         self.import_tasks()
 
     def daily_update(self):
@@ -207,7 +207,7 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.id}/cards'
-        fields = ["id","name","desc","due"]
+        fields = ["id","name","desc","due","labels"]
         card_list = hlp.request("GET", url, fields=fields)
         for card_input in card_list:
             card_input["due"] = hlp.localize_ts(card_input["due"])
