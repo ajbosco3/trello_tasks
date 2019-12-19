@@ -63,22 +63,14 @@ class Board:
 
     def post_tasks(self):
         for task in self.tasks:
-            card_names = [card["name"] for card in self.cards]
-            if task["name"] not in card_names:
-                self.create_card(task)
+            if task.name not in card_names:
+                task.create_card()
             else:
-                print(f"Card skipped: {task['name']}")
+                print(f"Card skipped: {task.name}")
 
     def update_task_file(self):
         with open("regular_tasks.json", "w") as f:
             json.dump(self.tasks, f)
-
-    def log_date(self, list_cards):
-        for card in list_cards:
-            due_date = card["due"].strftime("%Y-%m-%d")
-            for i, task in enumerate(self.tasks):
-                if card["name"] == task["name"]:
-                    self.tasks[i]["date_info"]["last_complete"] = due_date
 
     def archive_cards(self, list_name="Done"):
         list_id = self.lists[list_name]
@@ -240,8 +232,8 @@ class List:
         for card in self.cards:
             due_date = card.due.strftime("%Y-%m-%d")
             for i, task in enumerate(self.board.tasks):
-                if card.name == task["name"]:
-                    self.board.tasks[i]["date_info"]["last_complete"] = due_date
+                if card.name == task.name:
+                    self.board.tasks[i].date.info["last_complete"] = due_date
 
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
