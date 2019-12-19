@@ -57,7 +57,8 @@ class Board:
 
     def import_tasks(self):
         with open("regular_tasks.json", "r") as f:
-            self.tasks = json.load(f)
+            tasks = json.load(f)
+        self.tasks = [Task(self, task) for task in tasks]
         self.task_names = [task["name"] for task in self.tasks]
 
     def post_tasks(self):
