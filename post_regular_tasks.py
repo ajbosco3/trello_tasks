@@ -209,11 +209,13 @@ class List:
     def time_sum(self, breakout=False):
         self.sprint_time = 0
         for card in self.cards:
-            self.sprint_time += card.stats["Time estimate"]
+            time_est = card.stats.get("Time estimate",0)
+            self.sprint_time += time_est
         if breakout:
             card_list = sorted(self.cards, key=lambda x: x.stats["Time estimate"], reverse=True)
             for sort_card in card_list:
-                print(sort_card.name, sort_card.stats["Time estimate"])
+                time_est = sort_card.stats.get("Time estimate",0)
+                print(sort_card.name, time_est)
     
     def _log_date(self):
         for card in self.cards:
@@ -240,7 +242,7 @@ class Card:
 
     def _get_stats(self):
         self.stats = {}
-        if self.desc == '':
+        if self.desc != '':
             stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
             for stat in stat_split:
                 key, val = stat.split(": ")
