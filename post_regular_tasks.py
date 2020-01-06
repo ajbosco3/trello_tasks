@@ -63,7 +63,7 @@ class Board:
 
     def post_tasks(self):
         for task in self.tasks:
-            if task.name not in card_names:
+            if task.name not in self.card_names:
                 task.create_card()
             else:
                 print(f"Card skipped: {task.name}")
@@ -197,7 +197,7 @@ class List:
 
     def sort_list(self):
         prefer_order = lambda x: (
-            self.label_names[x["labels"][0]],
+            self.board.label_names[x["labels"][0]],
             x["due"],
             x["name"])
         self.cards = sorted(self.cards, key=prefer_order)
@@ -223,7 +223,7 @@ class List:
                     self.board.tasks[i].date.info["last_complete"] = due_date
 
     def archive_cards(self):
-        url = f"https://api.trello.com/1/lists/{self.list_id}/archiveAllCards"
+        url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
         hlp.request("POST", url)
         
         card_names = [card.name for card in self.cards]
@@ -293,8 +293,8 @@ class Task:
 
     def create_card_body(self):
         self.card_body = {
-            "last_complete": task["date_info"]["last_complete"],
-            "time_estimate": task["time_estimate"]
+            "last_complete": self.date_info["last_complete"],
+            "time_estimate": self.time_estimate
         }
         
     
@@ -312,11 +312,11 @@ class Task:
             "desc": hlp.format_desc(self.card_body)
         }
         hlp.request("POST", url, **params)
-        print(f"Posted card: {self.card_name} to list {self.card_list['name']} (due {self.due.date()})")
+        print(f"Posted card: {self.name} to list {self.card_list['name']} (due {self.due.date()})")
         
 
 def main(board_name = "To Do List"):
-    board = TrelloBoard(board_name)
+    board = Board(board_name)
     board.daily_update()
     
 if __name__ == "__main__":
