@@ -11,6 +11,12 @@ class RangeDict(dict):
                 return self[key]
         return default
 
+def sentence_case(string):
+    first = string[0]
+    rest = string[1:]
+    title_str = f"{first.upper()}{rest}"
+    return title_str
+
 def localize_ts(timestamp):
     if timestamp:
         utc = tz.tzutc()
@@ -24,7 +30,7 @@ def format_desc(desc_dict):
     print(desc_dict)
     desc_struct = []
     for title, val in desc_dict.items():
-        title = title_case(title.replace("_"," "))
+        title = sentence_case(title.replace("_"," "))
         desc_struct.append(f"**{title}:** {val}")
     desc = "#Stats\n{}".format('\n'.join(desc_struct))
     return desc
