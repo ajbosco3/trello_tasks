@@ -35,6 +35,6 @@ def request(r_type, url, **kwargs):
 
     for key, val in kwargs.items():
         querystring[key] = val
-    r = requests.request(r_type, url)
+    r = requests.request(r_type, url, params=querystring)
     if r_type == "GET":
         return r.json()
