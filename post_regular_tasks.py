@@ -257,7 +257,7 @@ class Task:
         self.name = task["name"]
         self.labels = task["labels"]
         self.label_ids = [self.board.labels[label] for label in self.labels]
-        self.date_info  task["date_info"]
+        self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
 
     def assign_due_date(self):
@@ -293,7 +293,7 @@ class Task:
 
     def create_card_body(self):
         self.card_body = {
-            "last_complete": task["date_info"]["last_complete"]
+            "last_complete": task["date_info"]["last_complete"],
             "time_estimate": task["time_estimate"]
         }
         
@@ -312,7 +312,7 @@ class Task:
             "desc": hlp.format_desc(self.card_body)
         }
         hlp.request("POST", url, **params)
-        print(f"Posted card: {self.card_name} to list {self.card_list["name"]} (due {self.due.date()})")
+        print(f"Posted card: {self.card_name} to list {self.card_list['name']} (due {self.due.date()})")
         
 
 def main(board_name = "To Do List"):
