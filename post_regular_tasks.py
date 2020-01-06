@@ -233,7 +233,7 @@ class TrelloBoard:
 
     def get_list_cards(self, list_id):
         url = f'https://api.trello.com/1/lists/{list_id}/cards'
-        querystring = {"key": self.key, "token": self.token, "fields": ["id","name","desc","labels"]}
+        querystring = {"key": self.key, "token": self.token, "fields": ["id","name","desc","labels","due"]}
         list_cards = requests.get(url, params=querystring).json()
         return list_cards
 
@@ -241,6 +241,7 @@ class TrelloBoard:
         stat_split = card["desc"].split("#Stats\n")[1].replace("**","").split("\n")
         for stat in stat_split:
             key, val = stat.split(": ")
+            val = val.strip()
             val = int(val) if val.isnumeric() else val
             card[key] = val
         return card
