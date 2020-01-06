@@ -37,7 +37,7 @@ class Board:
 
     def get_labels(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
-        labels = hlp.request("GET", url).json()
+        labels = hlp.request("GET", url)
         label_map = {label["name"]: label["id"] for label in labels}
         self.labels = label_map
         self.label_names = {id: name for name, id in self.labels.items()}
@@ -45,7 +45,7 @@ class Board:
 
     def get_lists(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/lists/"
-        lists_ = hlp.request("GET", url).json()
+        lists_ = hlp.request("GET", url)
 
         self.lists = {}
         for list_input in lists_:
