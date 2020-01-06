@@ -240,11 +240,12 @@ class Card:
 
     def _get_stats(self):
         self.stats = {}
-        stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
-        for stat in stat_split:
-            key, val = stat.split(": ")
-            val = int(val) if val.isnumeric() else val
-            self.stats[key] = val
+        if self.desc == '':
+            stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
+            for stat in stat_split:
+                key, val = stat.split(": ")
+                val = int(val) if val.isnumeric() else val
+                self.stats[key] = val
 
     def move_card(self, new_list):
         url = f"https://api.trello.com/1/cards/{card}"
