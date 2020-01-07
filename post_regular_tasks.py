@@ -251,9 +251,12 @@ class Card:
                 val = int(val) if val.isnumeric() else val
                 self.stats[key] = val
 
-    def move_card(self, new_list):
-        url = f"https://api.trello.com/1/cards/{card}"
-        hlp.request("PUT", url, idList=new_list)
+    def move_card(self, new_list_):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        new_list = self.list.board.lists[new_list_]
+        r = hlp.request("PUT", url, idList=new_list.id)
+        if r.status_code == 200:
+            self.list = new_list
 
 
 class Task:

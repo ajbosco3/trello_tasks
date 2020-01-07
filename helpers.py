@@ -46,6 +46,8 @@ def request(r_type, url, **kwargs):
     r = requests.request(r_type, url, params=querystring)
     if r_type == "GET":
         return r.json()
+    else:
+        return r
 
 def format_tasks(task_list):
     task_output = []
