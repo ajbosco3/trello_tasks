@@ -256,10 +256,10 @@ class Card:
 
 class Task:
     def __init__(self, board, task):
-        self.board = board
+        self._board = board
         self.name = task["name"]
         self.labels = task["labels"]
-        self.label_ids = [self.board.labels[label] for label in self.labels]
+        self._label_ids = [self.board.labels[label] for label in self.labels]
         self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
 
