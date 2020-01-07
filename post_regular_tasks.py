@@ -69,8 +69,9 @@ class Board:
                 print(f"Card skipped: {task.name}")
 
     def update_task_file(self):
+        task_output = hlp.format_tasks(self.tasks)
         with open("regular_tasks.json", "w") as f:
-            json.dump(self.tasks, f)
+            json.dump(task_output, f)
 
     def archive_cards(self, list_name="Done"):
         card_list = next(list_ for list_ in self.lists if list_.name == list_name)
@@ -147,7 +148,7 @@ class Board:
         delta = int(input("Enter task frequency: "))
         advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
         est = int(input("Enter time estimate (in minutes): "))
-        task = {
+        task_input = {
             "name": name,
             "labels": labels,
             "date_info": {
@@ -157,6 +158,7 @@ class Board:
             },
         "time_estimate": est
         }
+        task = Task(self, task_input)
         self.tasks.append(task)
         self.update_task_file()
 
@@ -259,7 +261,7 @@ class Task:
         self._board = board
         self.name = task["name"]
         self.labels = task["labels"]
-        self._label_ids = [self.board.labels[label] for label in self.labels]
+        self._label_ids = [self._board.labels[label] for label in self.labels]
         self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
 

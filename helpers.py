@@ -46,3 +46,13 @@ def request(r_type, url, **kwargs):
     r = requests.request(r_type, url, params=querystring)
     if r_type == "GET":
         return r.json()
+
+def format_tasks(task_list):
+    task_output = []
+    for task in task_list:
+        task_dict = task.__dict__.copy()
+        for key in task.__dict__:
+            if key.startswith("_"):
+                del task_dict[key]
+        task_output.append(task_dict)
+    return task_output
