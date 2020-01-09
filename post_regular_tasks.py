@@ -248,7 +248,7 @@ class Card:
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
         url = f"https://api.trello.com/1/cards/{self.id}"
-        hlp.request("PUT", url, due=date)
+        r = hlp.request("PUT", url, due=date)
         if r.status_code == 200:
             self.due = date
 
