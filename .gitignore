@@ -1,6 +1,6 @@
 to_do.txt
 credentials.json
 regular_tasks.json
-__pycache__/post_regular_tasks.cpython-37.pyc
+*.pyc
 regular_tasks_test.json
 .vscode
