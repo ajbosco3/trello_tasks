@@ -256,7 +256,8 @@ class Card:
         date = hlp.localize_ts(date)
         url = f"https://api.trello.com/1/cards/{self.id}"
         hlp.request("PUT", url, due=date)
-        self.due = date
+        if r.status_code == 200:
+            self.due = date
 
     def move_card(self, new_list_):
         url = f"https://api.trello.com/1/cards/{self.id}"
