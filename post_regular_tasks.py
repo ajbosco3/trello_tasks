@@ -5,7 +5,7 @@ from collections import defaultdict
 import requests
 
 import helpers as hlp
-from config import EXEMPT
+from config import EXEMPT, TASK_FILE
 from helpers import RangeDict
 
 class Board:
@@ -56,7 +56,7 @@ class Board:
         print("Fetched lists and cards.")
 
     def import_tasks(self):
-        with open("regular_tasks.json", "r") as f:
+        with open(TASK_FILE, "r") as f:
             tasks = json.load(f)
         self.tasks = [Task(self, task) for task in tasks]
         self.task_names = [task.name for task in self.tasks]
@@ -70,11 +70,11 @@ class Board:
 
     def update_task_file(self):
         task_output = hlp.format_tasks(self.tasks)
-        with open("regular_tasks.json", "w") as f:
+        with open(TASK_FILE, "w") as f:
             json.dump(task_output, f)
 
     def archive_cards(self, list_name="Done"):
-        card_list = next(list_ for list_ in self.lists if list_.name == list_name)
+        card_list = self.lists[list_name]
         card_list.archive_cards()
 
     def sort_list(self, card_list):
@@ -224,7 +224,7 @@ class List:
             due_date = card.due.strftime("%Y-%m-%d")
             for i, task in enumerate(self.board.tasks):
                 if card.name == task.name:
-                    self.board.tasks[i].date.info["last_complete"] = due_date
+                    self.board.tasks[i].date_info["last_complete"] = due_date
 
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
@@ -297,7 +297,7 @@ class Task:
             range(hours_to_sunday,720): "This Month"
         })
         name = diff_map.get(diff, "Beyond")
-        self.card_list = {"name": name, "id": self.board.lists[name]}
+        self.card_list = self._board.lists[name]
 
     def create_card_body(self):
         self.card_body = {
@@ -313,14 +313,14 @@ class Task:
 
         url = "https://api.trello.com/1/cards"
         params = {
-            "idList": self.card_list["id"],
+            "idList": self.card_list.id,
             "name": self.name,
-            "idLabels": self.label_ids,
+            "idLabels": self._label_ids,
             "due": self.due,
             "desc": hlp.format_desc(self.card_body)
         }
-        hlp.request("POST", url, **params)
-        print(f"Posted card: {self.name} to list {self.card_list['name']} (due {self.due.date()})")
+        r = hlp.request("POST", url, **params)        
+        print(f"Posted card: {self.name} to list {self.card_list.name} (due {self.due.date()})")
         
 
 def main(board_name = "To Do List"):
