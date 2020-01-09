@@ -58,3 +58,7 @@ def format_tasks(task_list):
                 del task_dict[key]
         task_output.append(task_dict)
     return task_output
+
+def date_handler(record_val):
+    if isinstance(record_val, (dt.date, dt.datetime)):
+        return record_val.__str__()

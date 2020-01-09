@@ -70,8 +70,9 @@ class Board:
 
     def update_task_file(self):
         task_output = hlp.format_tasks(self.tasks)
+        print(task_output)
         with open(TASK_FILE, "w") as f:
-            json.dump(task_output, f)
+            json.dump(task_output, f, default=hlp.date_handler)
 
     def archive_cards(self, list_name="Done"):
         card_list = self.lists[list_name]
@@ -233,7 +234,8 @@ class List:
         card_names = [card.name for card in self.cards]
         print(f"All cards archived in list {self.name}: {card_names}")
         self._log_date()
-        #self.board.update_task_file()
+        self.board.update_task_file()
+        self.cards = []
         self.board.get_cards()
 
 class Card:
