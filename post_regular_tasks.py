@@ -70,7 +70,6 @@ class Board:
 
     def update_task_file(self):
         task_output = hlp.format_tasks(self.tasks)
-        print(task_output)
         with open(TASK_FILE, "w") as f:
             json.dump(task_output, f, default=hlp.date_handler)
 
