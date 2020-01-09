@@ -252,6 +252,12 @@ class Card:
                 val = int(val) if val.isnumeric() else val
                 self.stats[key] = val
 
+    def change_due_date(self, date):
+        date = hlp.localize_ts(date)
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        hlp.request("PUT", url, due=date)
+        self.due = date
+
     def move_card(self, new_list_):
         url = f"https://api.trello.com/1/cards/{self.id}"
         new_list = self.list.board.lists[new_list_]
