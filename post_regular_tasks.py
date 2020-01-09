@@ -165,16 +165,9 @@ class Board:
     def update_today(self):
         self.get_cards()
         today_list = self.lists["Today"]
-        today_cards = [card["id"] for card in self.cards if card["list"] == today_list]
         today = dt.datetime.today().replace(hour=23,minute=59,second=0)
-        for card in today_cards:
-            url = f"https://api.trello.com/1/cards/{card}"
-            querystring = {
-                "key": self.key,
-                "token": self.token,
-                "due": hlp.localize_ts(today)
-            }
-            requests.put(url, params=querystring)
+        for card in today_list.cards:
+            card.change_due_date(today)
 
 
 class List:
