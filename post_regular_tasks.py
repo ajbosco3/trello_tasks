@@ -117,7 +117,7 @@ class Board:
 
     def rearrange_cards(self):
         self.get_cards()
-        for card in self.cards:
+        for list_ in self.lists:
             card_list = card["list"]
             new_list = self.lists[self.assign_list(card["due"])]
             if card_list != new_list and not card_list.exempt:
@@ -245,6 +245,23 @@ class Card:
                 val = int(val) if val.isnumeric() else val
                 self.stats[key] = val
 
+    def assign_list(self):
+        now = hlp.localize_ts(dt.datetime.now())
+        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
+        diff = int((self.due - now).total_seconds()//3600)
+
+        hours_to_sunday = int((sunday - now).total_seconds()//3600)
+        if hours_to_sunday < 28:
+            hours_to_sunday += 168
+
+        diff_map = RangeDict({
+            range(0,29): "Today",
+            range(29,hours_to_sunday+1): "This Week",
+            range(hours_to_sunday,720): "This Month"
+        })
+        new_list = diff_map.get(diff, "Beyond")
+        self.move_card(new_list)
+
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
         url = f"https://api.trello.com/1/cards/{self.id}"
@@ -258,6 +275,7 @@ class Card:
         r = hlp.request("PUT", url, idList=new_list.id)
         if r.status_code == 200:
             self.list = new_list
+            new_list.cards.append(self)
 
 
 class Task:
