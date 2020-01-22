@@ -301,45 +301,28 @@ class Task:
         
         self.due = hlp.localize_ts(raw_due_date)
 
-    def assign_list(self):
-        now = hlp.localize_ts(dt.datetime.now())
-        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
-        diff = int((self.due - now).total_seconds()//3600)
-
-        hours_to_sunday = int((sunday - now).total_seconds()//3600)
-        if hours_to_sunday < 28:
-            hours_to_sunday += 168
-
-        diff_map = RangeDict({
-            range(0,29): "Today",
-            range(29,hours_to_sunday+1): "This Week",
-            range(hours_to_sunday,720): "This Month"
-        })
-        name = diff_map.get(diff, "Beyond")
-        self.card_list = self._board.lists[name]
-
     def create_card_body(self):
         self.card_body = {
             "last_complete": self.date_info["last_complete"],
             "time_estimate": self.time_estimate
         }
         
-    
     def create_card(self):
         self.assign_due_date()
-        self.assign_list()
         self.create_card_body()
+        inbox = self._board.lists["Inbox"]
 
         url = "https://api.trello.com/1/cards"
         params = {
-            "idList": self.card_list.id,
+            "idList": inbox.id,
             "name": self.name,
             "idLabels": self._label_ids,
             "due": self.due,
             "desc": hlp.format_desc(self.card_body)
         }
-        r = hlp.request("POST", url, **params)        
-        print(f"Posted card: {self.name} to list {self.card_list.name} (due {self.due.date()})")
+        hlp.request("POST", url, **params)        
+        print(f"Posted card: {self.name} (due {self.due.date()})")
+        
         
 
 def main(board_name = "To Do List"):
