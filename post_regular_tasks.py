@@ -117,9 +117,9 @@ class Board:
 
     def rearrange_cards(self):
         self.get_cards()
-        for list_ in self.lists:
-            card_list = card["list"]
-            new_list = self.lists[self.assign_list(card["due"])]
+        for list_name, list_ in self.lists:
+            for card in list_.cards:
+                new_list = self.lists[self.assign_list(card["due"])]
             if card_list != new_list and not card_list.exempt:
                 self.move_card(card["id"], new_list)
                 print(f"Moved card {card['name']} to {new_list} (due {card['due']})")
@@ -260,7 +260,8 @@ class Card:
             range(hours_to_sunday,720): "This Month"
         })
         new_list = diff_map.get(diff, "Beyond")
-        self.move_card(new_list)
+        if self.list.name != new_list:
+            self.move_card(new_list)
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
@@ -274,6 +275,7 @@ class Card:
         new_list = self.list.board.lists[new_list_]
         r = hlp.request("PUT", url, idList=new_list.id)
         if r.status_code == 200:
+            self.list.cards.remove(self)
             self.list = new_list
             new_list.cards.append(self)
 
