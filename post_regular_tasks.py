@@ -117,12 +117,9 @@ class Board:
 
     def rearrange_cards(self):
         self.get_cards()
-        for list_name, list_ in self.lists:
+        for list_ in self.lists.values():
             for card in list_.cards:
-                new_list = self.lists[self.assign_list(card["due"])]
-            if card_list != new_list and not card_list.exempt:
-                self.move_card(card["id"], new_list)
-                print(f"Moved card {card['name']} to {new_list} (due {card['due']})")
+                card.assign_list()
 
     def move_card(self, card, new_list):
         url = f"https://api.trello.com/1/cards/{card}"
@@ -260,7 +257,7 @@ class Card:
             range(hours_to_sunday,720): "This Month"
         })
         new_list = diff_map.get(diff, "Beyond")
-        if self.list.name != new_list:
+        if self.list.name != new_list and not self.list.exempt:
             self.move_card(new_list)
 
     def change_due_date(self, date):
@@ -277,7 +274,8 @@ class Card:
         if r.status_code == 200:
             self.list.cards.remove(self)
             self.list = new_list
-            new_list.cards.append(self)
+            self.list.cards.append(self)
+            print(f"Moved card {self.name} to {self.list.name} (due {self.due})")
 
 
 class Task:
