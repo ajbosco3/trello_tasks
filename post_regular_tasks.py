@@ -133,12 +133,8 @@ class Board:
 
 
     def sort_all_lists(self):
-        self.get_cards()
-        groups = defaultdict(list)
-        for card in self.cards:
-            groups[card["list"]].append(card)
-        for card_list in groups.values():
-            self.sort_list(card_list)
+        for list_ in self.lists.values():
+            list_.sort_list()
 
     def add_task(self):
         name = input("Enter task name: ")
@@ -190,13 +186,13 @@ class List:
 
     def sort_list(self):
         prefer_order = lambda x: (
-            self.board.label_names[x["labels"][0]],
-            x["due"],
-            x["name"])
+            x.labels[0]["name"],
+            x.due,
+            x.name)
         self.cards = sorted(self.cards, key=prefer_order)
 
         for rank, card in enumerate(self.cards, start=1):
-            url = f"https://api.trello.com/1/cards/{card['id']}"
+            url = f"https://api.trello.com/1/cards/{card.id}"
             hlp.request("PUT", url, pos=rank)
 
     def time_sum(self, breakout=False):
