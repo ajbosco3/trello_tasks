@@ -1,4 +1,6 @@
 import datetime as dt
+from pathlib import Path
+import json
 
 import requests
 from dateutil import tz
@@ -62,3 +64,9 @@ def format_tasks(task_list):
 def date_handler(record_val):
     if isinstance(record_val, (dt.date, dt.datetime)):
         return record_val.__str__()
+
+def get_credentials():
+    base_path = Path(__file__).parent
+    with open((base_path / "credentials.json"), "r") as f:
+        creds = json.load(f)
+    return creds

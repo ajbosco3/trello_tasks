@@ -1,8 +1,9 @@
 import json
+from pathlib import Path
+from helpers import get_credentials
 
-with open("credentials.json", "r") as f:
-    creds = json.load(f)
+base_path = Path(__file__).parent
 
-QUERYSTRING = creds
+QUERYSTRING = get_credentials()
 EXEMPT = ["Epics"]
-TASK_FILE = "regular_tasks_test.json"
+TASK_FILE = (base_path / "regular_tasks.json")
