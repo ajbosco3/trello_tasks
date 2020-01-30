@@ -174,9 +174,9 @@ class List:
         card_names = [card.name for card in self.cards]
         print(f"All cards archived in list {self.name}: {card_names}")
         self._log_date()
-        self.board.update_task_file()
+        self.board._update_task_file()
         self.cards = []
-        self.board.get_cards()
+        self.board._get_cards()
 
 class Card:
     def __init__(self, card_input):
