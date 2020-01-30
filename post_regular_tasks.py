@@ -275,7 +275,7 @@ class Task:
         print(f"Posted card: {self.name} (due {self.due.date()})")
         
 
-def main(board_name = "To Do List"):
+def main(board_name = "To Do Test"):
     board = Board(board_name)
     board.daily_update()
     

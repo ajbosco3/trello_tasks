@@ -6,4 +6,4 @@ base_path = Path(__file__).parent
 
 QUERYSTRING = get_credentials()
 EXEMPT = ["Epics"]
-TASK_FILE = (base_path / "regular_tasks.json")
+TASK_FILE = (base_path / "regular_tasks_test.json")
