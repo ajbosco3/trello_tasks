@@ -118,18 +118,6 @@ class Board:
             card.change_due_date(today)
 
 
-    def list_time_sum(self, list_id, breakout=False):
-        card_list = self.get_list_cards(list_id)
-        sprint_time = 0
-        for card in card_list:
-            card = self.get_stats(card)
-            sprint_time += card["time estimate"]
-        if breakout:
-            card_list = sorted(card_list, key=lambda x: x["time estimate"], reverse=True)
-            for card in card_list:
-                print(card["name"], card["time estimate"])
-        return sprint_time
-
 class List:
     def __init__(self, list_input):
         self.board = list_input["board"]
