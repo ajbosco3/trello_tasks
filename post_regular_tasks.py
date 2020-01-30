@@ -67,6 +67,8 @@ class Board:
                 task.create_card()
             else:
                 print(f"Card skipped: {task.name}")
+        inbox = self.lists["Inbox"]
+        inbox.get_list_cards()
 
     def update_task_file(self):
         task_output = hlp.format_tasks(self.tasks)
