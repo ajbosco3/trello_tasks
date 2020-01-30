@@ -118,7 +118,8 @@ class Board:
     def rearrange_cards(self):
         self.get_cards()
         for list_ in self.lists.values():
-            for card in list_.cards:
+            card_list = list_.cards.copy()
+            for card in card_list:
                 card.assign_list()
 
     def move_card(self, card, new_list):
