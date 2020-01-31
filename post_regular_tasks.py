@@ -140,6 +140,7 @@ class List:
 
     def sort_list(self):
         prefer_order = lambda x: (
+            x.stats.get("priority", 999),
             x.labels[0]["name"],
             x.due,
             x.name)
@@ -227,8 +228,13 @@ class Card:
             self.list = new_list
             self.list.cards.append(self)
             print(f"Moved card {self.name} to {self.list.name} (due {self.due})")
-
-
+    
+    def add_stats(self, **kwargs):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        for key, val in kwargs.items():
+            self.stats[key] = val
+        self.desc = hlp.format_desc(self.stats)
+        hlp.request("PUT", url, desc=self.desc)
 class Task:
     def __init__(self, board, task):
         self._board = board
@@ -273,7 +279,16 @@ class Task:
         }
         hlp.request("POST", url, **params)        
         print(f"Posted card: {self.name} (due {self.due.date()})")
-        
+
+class Sprint:
+    def __init__(self, card_list):
+        #self.id = due_date.replace("-","")
+        #self.due_date = dt.datetime.strptime(due_date "%Y-%m-%d").date()
+        self.card_list = card_list
+
+    def _assign_priority(self):
+        for rank, card in enumerate(self.card_list.cards, start=1):
+            card.add_stats(priority=rank)
 
 def main(board_name = "To Do Test"):
     board = Board(board_name)
