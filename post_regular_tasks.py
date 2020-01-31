@@ -125,7 +125,6 @@ class List:
         self.name = list_input["name"]
         self.exempt = list_input["exempt"]
         self.get_list_cards()
-        self.time_sum()
 
     def get_list_cards(self):
         self.cards = []
@@ -136,6 +135,7 @@ class List:
             card_input["due"] = hlp.localize_ts(card_input["due"])
             card_input["list"] = self
             self.cards.append(Card(card_input))
+        self.time_sum()
 
 
     def sort_list(self):
