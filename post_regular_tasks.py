@@ -140,6 +140,7 @@ class List:
 
     def sort_list(self):
         prefer_order = lambda x: (
+            x.stats.get("priority", 999),
             x.labels[0]["name"],
             x.due,
             x.name)
@@ -232,8 +233,7 @@ class Card:
         url = f"https://api.trello.com/1/cards/{self.id}"
         for key, val in kwargs.items():
             self.stats[key] = val
-        new_line = f"\n**{key}:** {val}"
-        self.desc = self.desc + new_line
+        self.desc = hlp.format_desc(self.stats)
         hlp.request("PUT", url, desc=self.desc)
 class Task:
     def __init__(self, board, task):
