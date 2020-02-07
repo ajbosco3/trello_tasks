@@ -21,6 +21,11 @@ def sentence_case(string):
     title_str = f"{first.upper()}{rest}"
     return title_str
 
+def snake_case(string):
+    lower = string.lower()
+    snake = lower.replace(" ", "_")
+    return snake
+
 def localize_ts(timestamp):
     if timestamp:
         utc = tz.tzutc()
