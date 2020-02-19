@@ -236,6 +236,14 @@ class Card:
             self.stats[key] = val
         self.desc = hlp.format_desc(self.stats)
         hlp.request("PUT", url, desc=self.desc)
+
+    def remove_stats(self, *args):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        for stat in args:
+            del self.stats[stat]
+        self.desc = hlp.format_desc(self.stats)
+        hlp.request("PUT", url, desc=self.desc)
+
 class Task:
     def __init__(self, board, task):
         self._board = board
@@ -288,7 +296,8 @@ class Sprint:
         self.card_list = card_list
 
     def _assign_priority(self):
-        for rank, card in enumerate(self.card_list.cards, start=1):
+        for rank, card in enumerate(self.cards, start=1):
+            self.cards.append(card)
             card.add_stats(priority=rank)
 
 def main(board_name = "To Do List"):
