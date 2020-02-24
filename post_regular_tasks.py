@@ -20,6 +20,7 @@ class Board:
 
     def daily_update(self):
         self.archive_cards()
+        self._sprint_check()
         self.post_tasks()
         self.update_today()
         self.rearrange_cards()
@@ -80,11 +81,23 @@ class Board:
     def _add_sprint(self, sprint):
         self.sprints[sprint.id] = sprint
     
-    def remove_sprints(self):
-        for sprint_id, sprint in self.sprints.items():
+    def remove_sprints(self, sprint_id=None):
+        if sprint_id is None:
+            sprints_to_go = self.sprints.copy()
+        else:
+            sprints_to_go = {sprint_id: self.sprints[sprint_id]}
+
+        for sprint_id, sprint in sprints_to_go.items():
             sprint.remove()
+            del self.sprints[sprint_id]
             print(f"Removed sprint {sprint_id}")
-        self.sprints = {}
+
+    def _sprint_check(self):
+        today = hlp.localize_ts(dt.datetime.now()).date()
+        sprints = self.sprints.copy()
+        for sprint_id, sprint in sprints.items():
+            if sprint.due_date < today:
+                self.remove_sprints(sprint_id)
     
     def add_task(self):
         name = input("Enter task name: ")

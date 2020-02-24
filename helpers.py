@@ -36,7 +36,6 @@ def localize_ts(timestamp):
         return timestamp
 
 def format_desc(desc_dict):
-    print(desc_dict)
     desc_struct = []
     for title, val in desc_dict.items():
         title = sentence_case(title.replace("_"," "))
