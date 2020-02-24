@@ -241,7 +241,10 @@ class Card:
     def remove_stats(self, *args):
         url = f"https://api.trello.com/1/cards/{self.id}"
         for stat in args:
-            del self.stats[stat]
+            try:
+                del self.stats[stat]
+            except KeyError:
+                print(f"Stat key {stat} not found.")
         self.desc = hlp.format_desc(self.stats)
         hlp.request("PUT", url, desc=self.desc)
 
@@ -291,15 +294,16 @@ class Task:
         print(f"Posted card: {self.name} (due {self.due.date()})")
 
 class Sprint:
-    def __init__(self, card_list):
-        #self.id = due_date.replace("-","")
-        #self.due_date = dt.datetime.strptime(due_date "%Y-%m-%d").date()
+    def __init__(self, card_list, due_date):
+        self.id = int(due_date.replace("-",""))
+        self.due_date = dt.datetime.strptime(due_date, "%Y-%m-%d").date()
         self.card_list = card_list
+        self._activate_sprint()
 
-    def _assign_priority(self):
-        for rank, card in enumerate(self.cards, start=1):
-            self.cards.append(card)
-            card.add_stats(priority=rank)
+    def _activate_sprint(self):
+        for rank, card in enumerate(self.card_list.cards, start=1):
+            card.add_stats(sprint=self.id, sprint_due=self.due_date, priority=rank)
+
 
 def main(board_name = "To Do Test"):
     board = Board(board_name)
