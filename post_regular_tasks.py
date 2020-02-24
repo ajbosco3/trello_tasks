@@ -80,6 +80,12 @@ class Board:
     def _add_sprint(self, sprint):
         self.sprints[sprint.id] = sprint
     
+    def remove_sprints(self):
+        for sprint_id, sprint in self.sprints.items():
+            sprint.remove()
+            print(f"Removed sprint {sprint_id}")
+        self.sprints = {}
+    
     def add_task(self):
         name = input("Enter task name: ")
         labels = input("Enter label names, separated by comma: ").split(",")
@@ -265,7 +271,7 @@ class Card:
             try:
                 del self.stats[stat]
             except KeyError:
-                print(f"Stat key {stat} not found.")
+                continue
         self.desc = hlp.format_desc(self.stats)
         hlp.request("PUT", url, desc=self.desc)
 
@@ -331,9 +337,14 @@ class Sprint:
             self.due_date = due_date
     
     def _activate_sprint(self):
-        for rank, card in enumerate(self.card_list.cards, start=1):
+        for rank, card in enumerate(self.cards, start=1):
             card.add_stats(sprint=self.id, sprint_due=self.due_date, priority=rank)
-        
+
+    def remove(self):
+        sprint_keys = ["sprint", "sprint_due", "priority"]
+        for card in self.cards:
+            card.remove_stats(*sprint_keys)
+    
 
 
 def main(board_name = "To Do Test"):
