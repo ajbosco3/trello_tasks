@@ -13,6 +13,7 @@ class Board:
     def __init__(self, board_name):
         self._get_board_id(board_name)
         self._get_labels()
+        self.sprints = {}
         self._get_lists()
         self._get_cards()
         self._import_tasks()
@@ -75,6 +76,9 @@ class Board:
                 print(f"Card skipped: {task.name}")
         inbox = self.lists["Inbox"]
         inbox.get_list_cards()
+    
+    def _add_sprint(self, sprint):
+        self.sprints[sprint.id] = sprint
     
     def add_task(self):
         name = input("Enter task name: ")
@@ -161,6 +165,10 @@ class List:
             for sort_card in card_list:
                 time_est = sort_card.stats.get("time_estimate",0)
                 print(sort_card.name, time_est)
+
+    def add_sprint(self, due_date):
+        sprint = Sprint(due_date, self)
+        self.board._add_sprint(sprint)
     
     def _log_date(self):
         for card in self.cards:
@@ -184,7 +192,9 @@ class Card:
     def __init__(self, card_input):
         for key, val in card_input.items():
             self.__setattr__(key, val)
+        self.board = self.list.board
         self._get_stats()
+        self._assign_sprint()
 
     def _get_stats(self):
         self.stats = {}
@@ -195,6 +205,17 @@ class Card:
                 key = hlp.snake_case(key)
                 val = int(val) if val.isnumeric() else val
                 self.stats[key] = val
+
+    def _assign_sprint(self):
+        if "sprint" in self.stats:
+            sprint_id = self.stats["sprint"]
+            if sprint_id not in self.board.sprints:
+                due_date = self.stats["sprint_due"]
+                sprint = Sprint(due_date)
+                self.board._add_sprint(sprint)
+            else:
+                sprint = self.board.sprints[sprint_id]
+            sprint.cards.append(self)
 
     def assign_list(self):
         now = hlp.localize_ts(dt.datetime.now())
@@ -294,15 +315,25 @@ class Task:
         print(f"Posted card: {self.name} (due {self.due.date()})")
 
 class Sprint:
-    def __init__(self, card_list, due_date):
+    def __init__(self, due_date, card_list=None):
         self.id = int(due_date.replace("-",""))
-        self.due_date = dt.datetime.strptime(due_date, "%Y-%m-%d").date()
-        self.card_list = card_list
-        self._activate_sprint()
+        self._assign_due_date(due_date)
+        if card_list is not None:
+            self.cards = card_list.cards.copy()
+            self._activate_sprint()
+        else:
+            self.cards = []
 
+    def _assign_due_date(self, due_date):
+        if type(due_date) == str:
+            self.due_date = dt.datetime.strptime(due_date, "%Y-%m-%d").date()
+        else:
+            self.due_date = due_date
+    
     def _activate_sprint(self):
         for rank, card in enumerate(self.card_list.cards, start=1):
             card.add_stats(sprint=self.id, sprint_due=self.due_date, priority=rank)
+        
 
 
 def main(board_name = "To Do Test"):
