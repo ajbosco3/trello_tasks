@@ -301,7 +301,7 @@ class Sprint:
             self.cards.append(card)
             card.add_stats(priority=rank)
 
-def main(board_name = "To Do List"):
+def main(board_name = "To Do Test"):
     board = Board(board_name)
     board.daily_update()
     
