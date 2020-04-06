@@ -218,7 +218,11 @@ class Card:
     def _get_stats(self):
         self.stats = {}
         if self.desc != '':
-            stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
+            try:
+                stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
+            except IndexError:
+                print(self.name)
+                raise
             for stat in stat_split:
                 key, val = stat.split(": ")
                 key = hlp.snake_case(key)
@@ -360,7 +364,7 @@ class Sprint:
     
 
 
-def main(board_name = "To Do Test"):
+def main(board_name = "To Do List"):
     board = Board(board_name)
     board.daily_update()
     
