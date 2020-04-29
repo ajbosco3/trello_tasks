@@ -211,6 +211,7 @@ class Card:
     def __init__(self, card_input):
         for key, val in card_input.items():
             self.__setattr__(key, val)
+        self.labels = sorted(self.labels, key=lambda x: x["name"])
         self.board = self.list.board
         self._get_stats()
         self._assign_sprint()
@@ -220,7 +221,7 @@ class Card:
         if self.desc != '':
             try:
                 stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
-            except IndexError:
+            except:
                 print(self.name)
                 raise
             for stat in stat_split:
