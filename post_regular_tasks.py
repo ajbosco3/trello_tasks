@@ -105,6 +105,7 @@ class Board:
         delta = int(input("Enter task frequency: "))
         advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
         est = int(input("Enter time estimate (in minutes): "))
+        later  = True if input("Later?: ").upper() = "Y" else False
         task_input = {
             "name": name,
             "labels": labels,
@@ -113,7 +114,8 @@ class Board:
                 "advance": advance,
                 "last_complete": None
             },
-        "time_estimate": est
+            "time_estimate": est,
+            "later": later
         }
         task = Task(self, task_input)
         self.tasks.append(task)
