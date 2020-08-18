@@ -105,7 +105,7 @@ class Board:
         delta = int(input("Enter task frequency: "))
         advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
         est = int(input("Enter time estimate (in minutes): "))
-        later  = True if input("Later?: ").upper() = "Y" else False
+        later  = True if input("Later?: ").upper() == "Y" else False
         task_input = {
             "name": name,
             "labels": labels,
