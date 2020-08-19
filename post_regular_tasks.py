@@ -303,6 +303,7 @@ class Task:
         self._label_ids = [self._board.labels[label] for label in self.labels]
         self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
+        self.later = task["later"]
 
     def assign_due_date(self):
         if self.date_info["last_complete"]:
@@ -321,7 +322,8 @@ class Task:
     def create_card_body(self):
         self.card_body = {
             "last_complete": self.date_info["last_complete"],
-            "time_estimate": self.time_estimate
+            "time_estimate": self.time_estimate,
+            "later": self.later
         }
         
     def create_card(self):
