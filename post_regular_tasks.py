@@ -254,12 +254,13 @@ class Card:
             hours_to_sunday += 168
 
         diff_map = RangeDict({
-            range(0,29): "Later" if later is True else "Today",
+            range(0,29): "Later" if later else "Today",
             range(29,hours_to_sunday+1): "This Week",
             range(hours_to_sunday,720): "This Month"
         })
         new_list = diff_map.get(diff, "Beyond")
-        print(self.name, diff, later, new_list)
+        if self.list.name != new_list and not self.list.exempt:
+            self.move_card(new_list)
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
@@ -371,9 +372,7 @@ class Sprint:
 
 def main(board_name = "To Do List"):
     board = Board(board_name)
-    inbox = board.lists["Inbox"]
-    for card in inbox.cards:
-        card.assign_list()
+    board.daily_update()
     
 if __name__ == "__main__":
     main()
