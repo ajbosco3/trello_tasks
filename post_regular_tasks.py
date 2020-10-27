@@ -254,7 +254,7 @@ class Card:
             hours_to_sunday += 168
 
         diff_map = RangeDict({
-            range(0,29): "Later" if later else "Today",
+            range(0,29): "Later" if later is True else "Today",
             range(29,hours_to_sunday+1): "This Week",
             range(hours_to_sunday,720): "This Month"
         })
