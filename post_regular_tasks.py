@@ -1,6 +1,7 @@
 import datetime as dt
 import json
 from collections import defaultdict
+from distutils.util import strtobool
 from pathlib import Path
 
 import requests
@@ -229,7 +230,10 @@ class Card:
             for stat in stat_split:
                 key, val = stat.split(": ")
                 key = hlp.snake_case(key)
-                val = int(val) if val.isnumeric() else val
+                if val.isnumeric():
+                    val = int(val)
+                elif val in ("True", "False"):
+                    val = bool(strtobool(val))
                 self.stats[key] = val
 
     def _assign_sprint(self):
@@ -247,7 +251,7 @@ class Card:
         now = hlp.localize_ts(dt.datetime.now())
         sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
         diff = int((self.due - now).total_seconds()//3600)
-        later = bool(self.stats.get("later", False))
+        later = self.stats.get("later", False)
 
         hours_to_sunday = int((sunday - now).total_seconds()//3600)
         if hours_to_sunday < 28:
