@@ -217,6 +217,7 @@ class Card:
         self.labels = sorted(self.labels, key=lambda x: x["name"])
         self.board = self.list.board
         self._get_stats()
+        self._get_checklists()
         self._assign_sprint()
 
     def _get_stats(self):
@@ -235,6 +236,17 @@ class Card:
                 elif val in ("True", "False"):
                     val = bool(strtobool(val))
                 self.stats[key] = val
+    
+    def _get_checklists(self):
+        self.checklists = defaultdict(list)
+        url = f"https://api.trello.com/1/cards/{self.id}/checklists"
+        raw = hlp.request("GET", url)
+
+        for checklist in raw:
+            name = checklist["name"]
+            for checkitem in checklist["checkItems"]:
+                item_name = checkitem["name"]
+                self.checklists[name].append(item_name)
 
     def _assign_sprint(self):
         if "sprint" in self.stats:
