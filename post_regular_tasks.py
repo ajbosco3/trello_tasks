@@ -307,7 +307,8 @@ class Card:
 
         for checklist in raw:
             name = checklist["name"]
-            for checkitem in checklist["checkItems"]:
+            check_items = sorted(checklist["checkItems"], key=lambda x: x["pos"])
+            for checkitem in check_items:
                 item_name = checkitem["name"]
                 self.checklists[name].append(item_name)
 
