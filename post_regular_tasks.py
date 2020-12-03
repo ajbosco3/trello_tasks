@@ -18,9 +18,8 @@ class Board:
         self._get_cards()
 
     def daily_update(self):
-        self.rearrange_cards()
-        self.sort_all_lists()
-
+        pass
+    
     def _get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
         boards = hlp.request("GET", url)
@@ -56,11 +55,6 @@ class Board:
     def archive_cards(self, list_name="Done"):
         card_list = self.lists[list_name]
         card_list.archive_cards()
-
-    def sort_all_lists(self):
-        for list_ in self.lists.values():
-            list_.sort_list()
-
 
 class List:
     def __init__(self, list_input):
