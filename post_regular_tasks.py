@@ -68,19 +68,6 @@ class List:
             card_input["list"] = self
             self.cards.append(Card(card_input))
 
-
-    def sort_list(self):
-        prefer_order = lambda x: (
-            x.stats.get("priority", 999),
-            x.labels[0]["name"],
-            x.due,
-            x.name)
-        self.cards = sorted(self.cards, key=prefer_order)
-
-        for rank, card in enumerate(self.cards, start=1):
-            url = f"https://api.trello.com/1/cards/{card.id}"
-            hlp.request("PUT", url, pos=rank)
-
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
         hlp.request("POST", url)
