@@ -7,7 +7,6 @@ from pathlib import Path
 import requests
 
 import helpers as hlp
-from config import EXEMPT
 from helpers import RangeDict
 
 class Board:
@@ -44,7 +43,6 @@ class Board:
         self.lists = {}
         for list_input in lists_:
             list_input["board"] = self
-            list_input["exempt"] = True if list_input["name"] in EXEMPT else False
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
         print("Fetched lists and cards.")
@@ -58,7 +56,6 @@ class List:
         self.board = list_input["board"]
         self.id = list_input["id"]
         self.name = list_input["name"]
-        self.exempt = list_input["exempt"]
         self.get_list_cards()
 
     def get_list_cards(self):
