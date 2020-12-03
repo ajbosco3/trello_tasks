@@ -17,9 +17,6 @@ class Board:
         self._get_lists()
         self._get_cards()
 
-    def daily_update(self):
-        pass
-    
     def _get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
         boards = hlp.request("GET", url)
@@ -166,11 +163,3 @@ class Card:
             for checkitem in check_items:
                 item_name = checkitem["name"]
                 self.checklists[name].append(item_name)
-
-
-def main(board_name = "To Do List"):
-    board = Board(board_name)
-    board.daily_update()
-    
-if __name__ == "__main__":
-    main()
