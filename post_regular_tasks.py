@@ -18,8 +18,6 @@ class Board:
         self._get_cards()
 
     def daily_update(self):
-        self.archive_cards()
-        self.update_today()
         self.rearrange_cards()
         self.sort_all_lists()
 
@@ -69,13 +67,6 @@ class Board:
     def sort_all_lists(self):
         for list_ in self.lists.values():
             list_.sort_list()
-
-    def update_today(self):
-        self._get_cards()
-        today_list = self.lists["Today"]
-        today = dt.datetime.today().replace(hour=23,minute=59,second=0)
-        for card in today_list.cards:
-            card.change_due_date(today)
 
 
 class List:
