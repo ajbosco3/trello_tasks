@@ -7,7 +7,7 @@ from pathlib import Path
 import requests
 
 import helpers as hlp
-from config import EXEMPT, TASK_FILE
+from config import EXEMPT
 from helpers import RangeDict
 
 class Board:
@@ -16,11 +16,9 @@ class Board:
         self._get_labels()
         self._get_lists()
         self._get_cards()
-        self._import_tasks()
 
     def daily_update(self):
         self.archive_cards()
-        self.post_tasks()
         self.update_today()
         self.rearrange_cards()
         self.sort_all_lists()
@@ -56,48 +54,6 @@ class Board:
             board_list = List(list_input)
             self.lists[board_list.name] = board_list
         print("Fetched lists and cards.")
-
-    def _import_tasks(self):
-        with open(TASK_FILE, "r") as f:
-            tasks = json.load(f)
-        self.tasks = [Task(self, task) for task in tasks]
-        self.task_names = [task.name for task in self.tasks]
-
-    def _update_task_file(self):
-        task_output = hlp.format_tasks(self.tasks)
-        with open(TASK_FILE, "w") as f:
-            json.dump(task_output, f, default=hlp.date_handler)
-
-    def post_tasks(self):
-        for task in self.tasks:
-            if task.name not in self.card_names:
-                task.create_card()
-            else:
-                print(f"Card skipped: {task.name}")
-        inbox = self.lists["Inbox"]
-        inbox.get_list_cards()
-    
-    def add_task(self):
-        name = input("Enter task name: ")
-        labels = input("Enter label names, separated by comma: ").split(",")
-        delta = int(input("Enter task frequency: "))
-        advance = True if input("Date flexible? (Y/N): ").upper() == "Y" else False
-        est = int(input("Enter time estimate (in minutes): "))
-        later  = True if input("Later?: ").upper() == "Y" else False
-        task_input = {
-            "name": name,
-            "labels": labels,
-            "date_info": {
-                "delta": delta,
-                "advance": advance,
-                "last_complete": None
-            },
-            "time_estimate": est,
-            "later": later
-        }
-        task = Task(self, task_input)
-        self.tasks.append(task)
-        self._update_task_file()
 
     def archive_cards(self, list_name="Done"):
         card_list = self.lists[list_name]
@@ -152,13 +108,6 @@ class List:
         for rank, card in enumerate(self.cards, start=1):
             url = f"https://api.trello.com/1/cards/{card.id}"
             hlp.request("PUT", url, pos=rank)
-    
-    def _log_date(self):
-        for card in self.cards:
-            due_date = card.due.strftime("%Y-%m-%d")
-            for i, task in enumerate(self.board.tasks):
-                if card.name == task.name:
-                    self.board.tasks[i].date_info["last_complete"] = due_date
 
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
@@ -166,8 +115,6 @@ class List:
         
         card_names = [card.name for card in self.cards]
         print(f"All cards archived in list {self.name}: {card_names}")
-        self._log_date()
-        self.board._update_task_file()
         self.cards = []
         self.board._get_cards()
 
@@ -261,52 +208,6 @@ class Card:
                 item_name = checkitem["name"]
                 self.checklists[name].append(item_name)
 
-class Task:
-    def __init__(self, board, task):
-        self._board = board
-        self.name = task["name"]
-        self.labels = task["labels"]
-        self._label_ids = [self._board.labels[label] for label in self.labels]
-        self.date_info = task["date_info"]
-        self.time_estimate = task["time_estimate"]
-        self.later = task["later"]
-
-    def assign_due_date(self):
-        if self.date_info["last_complete"]:
-            base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
-        else:
-            base = dt.datetime.today()
-        base = base.replace(hour=23,minute=59,second=0)
-        raw_due_date = base + dt.timedelta(self.date_info["delta"])
-
-        next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
-        if self.date_info["advance"]:
-            raw_due_date = next_sunday(raw_due_date)
-        
-        self.due = hlp.localize_ts(raw_due_date)
-
-    def create_card_body(self):
-        self.card_body = {
-            "last_complete": self.date_info["last_complete"],
-            "time_estimate": self.time_estimate,
-            "later": self.later
-        }
-        
-    def create_card(self):
-        self.assign_due_date()
-        self.create_card_body()
-        inbox = self._board.lists["Inbox"]
-
-        url = "https://api.trello.com/1/cards"
-        params = {
-            "idList": inbox.id,
-            "name": self.name,
-            "idLabels": self._label_ids,
-            "due": self.due,
-            "desc": hlp.format_desc(self.card_body)
-        }
-        hlp.request("POST", url, **params)        
-        print(f"Posted card: {self.name} (due {self.due.date()})")
 
 def main(board_name = "To Do List"):
     board = Board(board_name)
