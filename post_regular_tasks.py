@@ -57,13 +57,6 @@ class Board:
         card_list = self.lists[list_name]
         card_list.archive_cards()
 
-    def rearrange_cards(self):
-        self._get_cards()
-        for list_ in self.lists.values():
-            card_list = list_.cards.copy()
-            for card in card_list:
-                card.assign_list()
-
     def sort_all_lists(self):
         for list_ in self.lists.values():
             list_.sort_list()
@@ -133,25 +126,6 @@ class Card:
                 elif val in ("True", "False"):
                     val = bool(strtobool(val))
                 self.stats[key] = val
-
-    def assign_list(self):
-        now = hlp.localize_ts(dt.datetime.now())
-        sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
-        diff = int((self.due - now).total_seconds()//3600)
-        later = self.stats.get("later", False)
-
-        hours_to_sunday = int((sunday - now).total_seconds()//3600)
-        if hours_to_sunday < 28:
-            hours_to_sunday += 168
-
-        diff_map = RangeDict({
-            range(0,29): "Later" if later is True else "Today",
-            range(29,hours_to_sunday+1): "This Week",
-            range(hours_to_sunday,720): "This Month"
-        })
-        new_list = diff_map.get(diff, "Beyond")
-        if self.list.name != new_list and not self.list.exempt:
-            self.move_card(new_list)
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
