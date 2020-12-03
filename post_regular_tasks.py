@@ -83,24 +83,6 @@ class Card:
             self.__setattr__(key, val)
         self.labels = sorted(self.labels, key=lambda x: x["name"])
         self.board = self.list.board
-        self._get_stats()
-
-    def _get_stats(self):
-        self.stats = {}
-        if self.desc != '':
-            try:
-                stat_split = self.desc.split("#Stats\n")[1].replace("**","").split("\n")
-            except:
-                print(self.name)
-                raise
-            for stat in stat_split:
-                key, val = stat.split(": ")
-                key = hlp.snake_case(key)
-                if val.isnumeric():
-                    val = int(val)
-                elif val in ("True", "False"):
-                    val = bool(strtobool(val))
-                self.stats[key] = val
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
@@ -118,23 +100,6 @@ class Card:
             self.list = new_list
             self.list.cards.append(self)
             print(f"Moved card {self.name} to {self.list.name} (due {self.due})")
-    
-    def add_stats(self, **kwargs):
-        url = f"https://api.trello.com/1/cards/{self.id}"
-        for key, val in kwargs.items():
-            self.stats[key] = val
-        self.desc = hlp.format_desc(self.stats)
-        hlp.request("PUT", url, desc=self.desc)
-
-    def remove_stats(self, *args):
-        url = f"https://api.trello.com/1/cards/{self.id}"
-        for stat in args:
-            try:
-                del self.stats[stat]
-            except KeyError:
-                continue
-        self.desc = hlp.format_desc(self.stats)
-        hlp.request("PUT", url, desc=self.desc)
     
     def get_checklists(self):
         self.checklists = defaultdict(list)
