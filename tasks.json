@@ -1,0 +1,763 @@
+{
+    "Living room": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 10,
+        "later": true
+    },
+    "Dishes": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 30,
+        "later": true
+    },
+    "Dinner prep": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 30,
+        "later": true
+    },
+    "Clean playroom": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-10"
+        },
+        "time_estimate": 15,
+        "later": true
+    },
+    "Clean family room": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-10"
+        },
+        "time_estimate": 15,
+        "later": true
+    },
+    "Laundry start": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-12"
+        },
+        "time_estimate": 2,
+        "later": false
+    },
+    "Laundry put away": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-14"
+        },
+        "time_estimate": 10,
+        "later": true
+    },
+    "Larns laundry start": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-15"
+        },
+        "time_estimate": 2,
+        "later": false
+    },
+    "Larns laundry fold": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 10,
+        "later": false
+    },
+    "Katie laundry start": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-14"
+        },
+        "time_estimate": 2,
+        "later": false
+    },
+    "Katie laundry put away": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-15"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Groceries": {
+        "labels": [
+            "0: Critical"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 120,
+        "later": true
+    },
+    "Garbage": {
+        "labels": [
+            "0: Critical"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-15"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Larns bath": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 3,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 20,
+        "later": true
+    },
+    "Counters": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Clean microwave": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": true,
+            "last_complete": "2020-08-20"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Clean laundry room": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-11-21"
+        },
+        "time_estimate": 10,
+        "later": false
+    },
+    "Clean master bedroom": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-10-19"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Clean master bathroom": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-11-27"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Clean Larns' room": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-11-28"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Clean loft": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-12-04"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Clean basement": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-11-28"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Clean fridge": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 30,
+            "advance": true,
+            "last_complete": "2020-10-21"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Wash curtains": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 365,
+            "advance": true,
+            "last_complete": "2019-07-15"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Dust blinds": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 180,
+            "advance": true,
+            "last_complete": "2019-07-15"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Vacuum": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": true,
+            "last_complete": "2020-12-07"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Mow lawn": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-11-22"
+        },
+        "time_estimate": 45,
+        "later": false
+    },
+    "Pull weeds": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 2,
+            "advance": false,
+            "last_complete": "2020-10-11"
+        },
+        "time_estimate": 45,
+        "later": false
+    },
+    "Cora bath": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 3,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 20,
+        "later": true
+    },
+    "Pick up bedroom": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Clean Cora room": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-11-28"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Cora laundry": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-10"
+        },
+        "time_estimate": 2,
+        "later": false
+    },
+    "Make bed": {
+        "labels": [
+            "1: High",
+            "break_task"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 5,
+        "later": false
+    },
+    "Clean Elantra": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": false,
+            "last_complete": "2020-09-22"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Clean Santa Fe": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": false,
+            "last_complete": "2020-12-15"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "Fold laundry": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-12"
+        },
+        "time_estimate": 15,
+        "later": true
+    },
+    "Oil change Elantra": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 180,
+            "advance": true,
+            "last_complete": "2019-09-28"
+        },
+        "time_estimate": 45,
+        "later": false
+    },
+    "Oil change Santa Fe": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 90,
+            "advance": true,
+            "last_complete": "2020-11-11"
+        },
+        "time_estimate": 45,
+        "later": false
+    },
+    "Make grocery list": {
+        "labels": [
+            "0: Critical"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Cora laundry put away": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-11"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Haircut": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 21,
+            "advance": true,
+            "last_complete": "2020-10-15"
+        },
+        "time_estimate": 45,
+        "later": false
+    },
+    "Change sheets": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 10,
+        "later": false
+    },
+    "Stairs": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 10,
+        "later": true
+    },
+    "Expense ledger": {
+        "labels": [
+            "1: High",
+            "break_task"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-15"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Weekly board review": {
+        "labels": [
+            "1: High",
+            "break_task"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-11"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Monthly board review": {
+        "labels": [
+            "1: High",
+            "break_task"
+        ],
+        "date_info": {
+            "delta": 30,
+            "advance": false,
+            "last_complete": "2020-11-03"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Clean coffee maker": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 180,
+            "advance": true,
+            "last_complete": "2020-10-11"
+        },
+        "time_estimate": 60,
+        "later": false
+    },
+    "Sweep floor": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 2,
+            "advance": false,
+            "last_complete": "2020-12-16"
+        },
+        "time_estimate": 5,
+        "later": true
+    },
+    "HVAC filter": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 90,
+            "advance": true,
+            "last_complete": "2020-10-10"
+        },
+        "time_estimate": 5,
+        "later": false
+    },
+    "Girls' bathroom": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 14,
+            "advance": true,
+            "last_complete": "2020-11-15"
+        },
+        "time_estimate": 30,
+        "later": false
+    },
+    "Clean powder room": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": true,
+            "last_complete": "2020-10-16"
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Clean behind couch": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 90,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 60,
+        "later": false
+    },
+    "Clean windows": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 90,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 60,
+        "later": false
+    },
+    "Dust ceiling fans": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 30,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Wipe down appliances": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 30,
+            "advance": true,
+            "last_complete": "2020-11-22"
+        },
+        "time_estimate": 10,
+        "later": true
+    },
+    "Clean bedroom closet": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 180,
+            "advance": true,
+            "last_complete": "2020-07-18"
+        },
+        "time_estimate": 120,
+        "later": false
+    },
+    "Clean fridge coils": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 360,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 60,
+        "later": false
+    },
+    "Vacuum mattress": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 360,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 20,
+        "later": false
+    },
+    "Shampoo carpets": {
+        "labels": [
+            "2: Medium"
+        ],
+        "date_info": {
+            "delta": 360,
+            "advance": true,
+            "last_complete": "2020-10-23"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Clean front closet": {
+        "labels": [
+            "3: Low"
+        ],
+        "date_info": {
+            "delta": 360,
+            "advance": true,
+            "last_complete": null
+        },
+        "time_estimate": 60,
+        "later": false
+    },
+    "Next day schedule": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-12-17"
+        },
+        "time_estimate": 10,
+        "later": true
+    },
+    "Weekend board review": {
+        "labels": [
+            "1: High",
+            "break_task"
+        ],
+        "date_info": {
+            "delta": 7,
+            "advance": false,
+            "last_complete": "2020-12-12"
+        },
+        "time_estimate": 15,
+        "later": false
+    },
+    "Water flowers": {
+        "labels": [
+            "1: High"
+        ],
+        "date_info": {
+            "delta": 1,
+            "advance": false,
+            "last_complete": "2020-11-02"
+        },
+        "time_estimate": 5,
+        "later": true
+    }
+}
