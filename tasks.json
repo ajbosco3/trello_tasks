@@ -205,7 +205,7 @@
     },
     "Clean master bedroom": {
         "labels": [
-            "This "
+            "This Week"
         ],
         "date_info": {
             "delta": 14,
@@ -386,7 +386,7 @@
     "Make bed": {
         "labels": [
             "This Week",
-            "break_task"
+            "Desk"
         ],
         "date_info": {
             "delta": 1,
@@ -519,7 +519,7 @@
     "Expense ledger": {
         "labels": [
             "This Week",
-            "break_task"
+            "Desk"
         ],
         "date_info": {
             "delta": 7,
@@ -532,7 +532,7 @@
     "Weekly board review": {
         "labels": [
             "This Week",
-            "break_task"
+            "Desk"
         ],
         "date_info": {
             "delta": 7,
@@ -545,7 +545,7 @@
     "Monthly board review": {
         "labels": [
             "This Week",
-            "break_task"
+            "Desk"
         ],
         "date_info": {
             "delta": 30,
@@ -738,7 +738,7 @@
     "Weekend board review": {
         "labels": [
             "This Week",
-            "break_task"
+            "Desk"
         ],
         "date_info": {
             "delta": 7,
