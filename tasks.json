@@ -1,7 +1,7 @@
 {
     "Living room": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
@@ -13,7 +13,7 @@
     },
     "Dishes": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
@@ -25,7 +25,7 @@
     },
     "Dinner prep": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
@@ -37,7 +37,7 @@
     },
     "Clean playroom": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 1,
@@ -49,7 +49,7 @@
     },
     "Clean family room": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 1,
@@ -61,7 +61,7 @@
     },
     "Laundry start": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -73,7 +73,7 @@
     },
     "Laundry put away": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -85,7 +85,7 @@
     },
     "Larns laundry start": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -97,7 +97,7 @@
     },
     "Larns laundry fold": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -109,7 +109,7 @@
     },
     "Katie laundry start": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -121,7 +121,7 @@
     },
     "Katie laundry put away": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -133,7 +133,7 @@
     },
     "Groceries": {
         "labels": [
-            "0: Critical"
+            "Critical"
         ],
         "date_info": {
             "delta": 7,
@@ -145,7 +145,7 @@
     },
     "Garbage": {
         "labels": [
-            "0: Critical"
+            "Critical"
         ],
         "date_info": {
             "delta": 7,
@@ -157,7 +157,7 @@
     },
     "Larns bath": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 3,
@@ -169,7 +169,7 @@
     },
     "Counters": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
@@ -181,7 +181,7 @@
     },
     "Clean microwave": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 7,
@@ -193,7 +193,7 @@
     },
     "Clean laundry room": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 1,
@@ -205,7 +205,7 @@
     },
     "Clean master bedroom": {
         "labels": [
-            "3: Low"
+            "This "
         ],
         "date_info": {
             "delta": 14,
@@ -217,7 +217,7 @@
     },
     "Clean master bathroom": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 14,
@@ -229,7 +229,7 @@
     },
     "Clean Larns' room": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 14,
@@ -241,7 +241,7 @@
     },
     "Clean loft": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 14,
@@ -253,7 +253,7 @@
     },
     "Clean basement": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 14,
@@ -265,7 +265,7 @@
     },
     "Clean fridge": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 30,
@@ -277,7 +277,7 @@
     },
     "Wash curtains": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 365,
@@ -289,7 +289,7 @@
     },
     "Dust blinds": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 180,
@@ -301,7 +301,7 @@
     },
     "Vacuum": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -313,7 +313,7 @@
     },
     "Mow lawn": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -325,7 +325,7 @@
     },
     "Pull weeds": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 2,
@@ -337,7 +337,7 @@
     },
     "Cora bath": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 3,
@@ -349,7 +349,7 @@
     },
     "Pick up bedroom": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 1,
@@ -361,7 +361,7 @@
     },
     "Clean Cora room": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 14,
@@ -373,7 +373,7 @@
     },
     "Cora laundry": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -385,7 +385,7 @@
     },
     "Make bed": {
         "labels": [
-            "1: High",
+            "This Week",
             "break_task"
         ],
         "date_info": {
@@ -398,7 +398,7 @@
     },
     "Clean Elantra": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 14,
@@ -410,7 +410,7 @@
     },
     "Clean Santa Fe": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 14,
@@ -422,7 +422,7 @@
     },
     "Fold laundry": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -434,7 +434,7 @@
     },
     "Oil change Elantra": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 180,
@@ -446,7 +446,7 @@
     },
     "Oil change Santa Fe": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 90,
@@ -458,7 +458,7 @@
     },
     "Make grocery list": {
         "labels": [
-            "0: Critical"
+            "Critical"
         ],
         "date_info": {
             "delta": 7,
@@ -470,7 +470,7 @@
     },
     "Cora laundry put away": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -482,7 +482,7 @@
     },
     "Haircut": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 21,
@@ -494,7 +494,7 @@
     },
     "Change sheets": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -506,7 +506,7 @@
     },
     "Stairs": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 1,
@@ -518,7 +518,7 @@
     },
     "Expense ledger": {
         "labels": [
-            "1: High",
+            "This Week",
             "break_task"
         ],
         "date_info": {
@@ -531,7 +531,7 @@
     },
     "Weekly board review": {
         "labels": [
-            "1: High",
+            "This Week",
             "break_task"
         ],
         "date_info": {
@@ -544,7 +544,7 @@
     },
     "Monthly board review": {
         "labels": [
-            "1: High",
+            "This Week",
             "break_task"
         ],
         "date_info": {
@@ -557,7 +557,7 @@
     },
     "Clean coffee maker": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 180,
@@ -569,7 +569,7 @@
     },
     "Sweep floor": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 2,
@@ -581,7 +581,7 @@
     },
     "HVAC filter": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 90,
@@ -593,7 +593,7 @@
     },
     "Girls' bathroom": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 14,
@@ -605,7 +605,7 @@
     },
     "Clean powder room": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 7,
@@ -617,7 +617,7 @@
     },
     "Clean behind couch": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 90,
@@ -629,7 +629,7 @@
     },
     "Clean windows": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 90,
@@ -641,7 +641,7 @@
     },
     "Dust ceiling fans": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 30,
@@ -653,7 +653,7 @@
     },
     "Wipe down appliances": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 30,
@@ -665,7 +665,7 @@
     },
     "Clean bedroom closet": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 180,
@@ -677,7 +677,7 @@
     },
     "Clean fridge coils": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 360,
@@ -689,7 +689,7 @@
     },
     "Vacuum mattress": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 360,
@@ -701,7 +701,7 @@
     },
     "Shampoo carpets": {
         "labels": [
-            "2: Medium"
+            "Maybe"
         ],
         "date_info": {
             "delta": 360,
@@ -713,7 +713,7 @@
     },
     "Clean front closet": {
         "labels": [
-            "3: Low"
+            "Maybe"
         ],
         "date_info": {
             "delta": 360,
@@ -725,7 +725,7 @@
     },
     "Next day schedule": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
@@ -737,7 +737,7 @@
     },
     "Weekend board review": {
         "labels": [
-            "1: High",
+            "This Week",
             "break_task"
         ],
         "date_info": {
@@ -750,7 +750,7 @@
     },
     "Water flowers": {
         "labels": [
-            "1: High"
+            "This Week"
         ],
         "date_info": {
             "delta": 1,
