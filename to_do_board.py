@@ -1,6 +1,8 @@
 from config import TASK_FILE
 import trello
+import datetime as dt
 import json
+import helpers as hlp
 
 class Board(trello.Board):
     def __init__(self, board_name):
@@ -8,8 +10,18 @@ class Board(trello.Board):
         self._import_tasks()
     
     def _import_tasks(self):
-        pass
+        with open(TASK_FILE, "r") as f:
+            tasks = json.load(f)
+        self.tasks = {task["name"]: Task(self, task) for task in tasks}
 
+    def post_tasks(self):
+        for task in self.tasks.values():
+            if task.name not in self.card_names:
+                task.create_card()
+            else:
+                print(f"Card skipped: {task.name}")
+        inbox = self.lists["Inbox"]
+        inbox.get_list_cards()
 
 class Card(trello.Card):
     pass
@@ -25,20 +37,21 @@ class Task:
         self._label_ids = [self._board.labels[label] for label in self.labels]
         self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
+        self.later = task["later"]
 
-        def assign_due_date(self):
-            if self.date_info["last_complete"]:
-                base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
-            else:
-                base = dt.datetime.today()
-            base = base.replace(hour=23,minute=59,second=0)
-            raw_due_date = base + dt.timedelta(self.date_info["delta"])
+    def assign_due_date(self):
+        if self.date_info["last_complete"]:
+            base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
+        else:
+            base = dt.datetime.today()
+        base = base.replace(hour=23,minute=59,second=0)
+        raw_due_date = base + dt.timedelta(self.date_info["delta"])
 
-            next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
-            if self.date_info["advance"]:
-                raw_due_date = next_sunday(raw_due_date)
-            
-            self.due = hlp.localize_ts(raw_due_date)
+        next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
+        if self.date_info["advance"]:
+            raw_due_date = next_sunday(raw_due_date)
+        
+        self.due = hlp.localize_ts(raw_due_date)
 
     def create_card_body(self):
         self.card_body = {
@@ -62,4 +75,3 @@ class Task:
         }
         hlp.request("POST", url, **params)        
         print(f"Posted card: {self.name} (due {self.due.date()})")
-        self.later = task["later"]
