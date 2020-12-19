@@ -1,5 +1,6 @@
-{
-    "Living room": {
+[
+    {
+        "name": "Living room",
         "labels": [
             "This Week"
         ],
@@ -11,7 +12,8 @@
         "time_estimate": 10,
         "later": true
     },
-    "Dishes": {
+    {
+        "name": "Dishes",
         "labels": [
             "This Week"
         ],
@@ -23,7 +25,8 @@
         "time_estimate": 30,
         "later": true
     },
-    "Dinner prep": {
+    {
+        "name": "Dinner prep",
         "labels": [
             "This Week"
         ],
@@ -35,7 +38,8 @@
         "time_estimate": 30,
         "later": true
     },
-    "Clean playroom": {
+    {
+        "name": "Clean playroom",
         "labels": [
             "Maybe"
         ],
@@ -47,7 +51,8 @@
         "time_estimate": 15,
         "later": true
     },
-    "Clean family room": {
+    {
+        "name": "Clean family room",
         "labels": [
             "Maybe"
         ],
@@ -59,7 +64,8 @@
         "time_estimate": 15,
         "later": true
     },
-    "Laundry start": {
+    {
+        "name": "Laundry start",
         "labels": [
             "This Week"
         ],
@@ -71,7 +77,8 @@
         "time_estimate": 2,
         "later": false
     },
-    "Laundry put away": {
+    {
+        "name": "Laundry put away",
         "labels": [
             "This Week"
         ],
@@ -83,7 +90,8 @@
         "time_estimate": 10,
         "later": true
     },
-    "Larns laundry start": {
+    {
+        "name": "Larns laundry start",
         "labels": [
             "This Week"
         ],
@@ -95,7 +103,8 @@
         "time_estimate": 2,
         "later": false
     },
-    "Larns laundry fold": {
+    {
+        "name": "Larns laundry fold",
         "labels": [
             "This Week"
         ],
@@ -107,7 +116,8 @@
         "time_estimate": 10,
         "later": false
     },
-    "Katie laundry start": {
+    {
+        "name": "Katie laundry start",
         "labels": [
             "This Week"
         ],
@@ -119,7 +129,8 @@
         "time_estimate": 2,
         "later": false
     },
-    "Katie laundry put away": {
+    {
+        "name": "Katie laundry put away",
         "labels": [
             "This Week"
         ],
@@ -131,7 +142,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Groceries": {
+    {
+        "name": "Groceries",
         "labels": [
             "Critical"
         ],
@@ -143,7 +155,8 @@
         "time_estimate": 120,
         "later": true
     },
-    "Garbage": {
+    {
+        "name": "Garbage",
         "labels": [
             "Critical"
         ],
@@ -155,7 +168,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Larns bath": {
+    {
+        "name": "Larns bath",
         "labels": [
             "This Week"
         ],
@@ -167,7 +181,8 @@
         "time_estimate": 20,
         "later": true
     },
-    "Counters": {
+    {
+        "name": "Counters",
         "labels": [
             "This Week"
         ],
@@ -179,7 +194,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Clean microwave": {
+    {
+        "name": "Clean microwave",
         "labels": [
             "Maybe"
         ],
@@ -191,7 +207,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Clean laundry room": {
+    {
+        "name": "Clean laundry room",
         "labels": [
             "Maybe"
         ],
@@ -203,7 +220,8 @@
         "time_estimate": 10,
         "later": false
     },
-    "Clean master bedroom": {
+    {
+        "name": "Clean master bedroom",
         "labels": [
             "This Week"
         ],
@@ -215,7 +233,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Clean master bathroom": {
+    {
+        "name": "Clean master bathroom",
         "labels": [
             "Maybe"
         ],
@@ -227,7 +246,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Clean Larns' room": {
+    {
+        "name": "Clean Larns' room",
         "labels": [
             "Maybe"
         ],
@@ -239,7 +259,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Clean loft": {
+    {
+        "name": "Clean loft",
         "labels": [
             "Maybe"
         ],
@@ -251,7 +272,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Clean basement": {
+    {
+        "name": "Clean basement",
         "labels": [
             "Maybe"
         ],
@@ -263,7 +285,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Clean fridge": {
+    {
+        "name": "Clean fridge",
         "labels": [
             "Maybe"
         ],
@@ -275,7 +298,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Wash curtains": {
+    {
+        "name": "Wash curtains",
         "labels": [
             "Maybe"
         ],
@@ -287,7 +311,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Dust blinds": {
+    {
+        "name": "Dust blinds",
         "labels": [
             "Maybe"
         ],
@@ -299,7 +324,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Vacuum": {
+    {
+        "name": "Vacuum",
         "labels": [
             "This Week"
         ],
@@ -311,7 +337,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Mow lawn": {
+    {
+        "name": "Mow lawn",
         "labels": [
             "This Week"
         ],
@@ -323,7 +350,8 @@
         "time_estimate": 45,
         "later": false
     },
-    "Pull weeds": {
+    {
+        "name": "Pull weeds",
         "labels": [
             "Maybe"
         ],
@@ -335,7 +363,8 @@
         "time_estimate": 45,
         "later": false
     },
-    "Cora bath": {
+    {
+        "name": "Cora bath",
         "labels": [
             "This Week"
         ],
@@ -347,7 +376,8 @@
         "time_estimate": 20,
         "later": true
     },
-    "Pick up bedroom": {
+    {
+        "name": "Pick up bedroom",
         "labels": [
             "Maybe"
         ],
@@ -359,7 +389,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Clean Cora room": {
+    {
+        "name": "Clean Cora room",
         "labels": [
             "This Week"
         ],
@@ -371,7 +402,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Cora laundry": {
+    {
+        "name": "Cora laundry",
         "labels": [
             "This Week"
         ],
@@ -383,7 +415,8 @@
         "time_estimate": 2,
         "later": false
     },
-    "Make bed": {
+    {
+        "name": "Make bed",
         "labels": [
             "This Week",
             "Desk"
@@ -396,7 +429,8 @@
         "time_estimate": 5,
         "later": false
     },
-    "Clean Elantra": {
+    {
+        "name": "Clean Elantra",
         "labels": [
             "This Week"
         ],
@@ -408,7 +442,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Clean Santa Fe": {
+    {
+        "name": "Clean Santa Fe",
         "labels": [
             "This Week"
         ],
@@ -420,7 +455,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "Fold laundry": {
+    {
+        "name": "Fold laundry",
         "labels": [
             "This Week"
         ],
@@ -432,7 +468,8 @@
         "time_estimate": 15,
         "later": true
     },
-    "Oil change Elantra": {
+    {
+        "name": "Oil change Elantra",
         "labels": [
             "This Week"
         ],
@@ -444,7 +481,8 @@
         "time_estimate": 45,
         "later": false
     },
-    "Oil change Santa Fe": {
+    {
+        "name": "Oil change Santa Fe",
         "labels": [
             "This Week"
         ],
@@ -456,7 +494,8 @@
         "time_estimate": 45,
         "later": false
     },
-    "Make grocery list": {
+    {
+        "name": "Make grocery list",
         "labels": [
             "Critical"
         ],
@@ -468,7 +507,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Cora laundry put away": {
+    {
+        "name": "Cora laundry put away",
         "labels": [
             "This Week"
         ],
@@ -480,7 +520,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Haircut": {
+    {
+        "name": "Haircut",
         "labels": [
             "Maybe"
         ],
@@ -492,7 +533,8 @@
         "time_estimate": 45,
         "later": false
     },
-    "Change sheets": {
+    {
+        "name": "Change sheets",
         "labels": [
             "This Week"
         ],
@@ -504,7 +546,8 @@
         "time_estimate": 10,
         "later": false
     },
-    "Stairs": {
+    {
+        "name": "Stairs",
         "labels": [
             "Maybe"
         ],
@@ -516,7 +559,8 @@
         "time_estimate": 10,
         "later": true
     },
-    "Expense ledger": {
+    {
+        "name": "Expense ledger",
         "labels": [
             "This Week",
             "Desk"
@@ -529,7 +573,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Weekly board review": {
+    {
+        "name": "Weekly board review",
         "labels": [
             "This Week",
             "Desk"
@@ -542,7 +587,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Monthly board review": {
+    {
+        "name": "Monthly board review",
         "labels": [
             "This Week",
             "Desk"
@@ -555,7 +601,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Clean coffee maker": {
+    {
+        "name": "Clean coffee maker",
         "labels": [
             "Maybe"
         ],
@@ -567,7 +614,8 @@
         "time_estimate": 60,
         "later": false
     },
-    "Sweep floor": {
+    {
+        "name": "Sweep floor",
         "labels": [
             "Maybe"
         ],
@@ -579,7 +627,8 @@
         "time_estimate": 5,
         "later": true
     },
-    "HVAC filter": {
+    {
+        "name": "HVAC filter",
         "labels": [
             "This Week"
         ],
@@ -591,7 +640,8 @@
         "time_estimate": 5,
         "later": false
     },
-    "Girls' bathroom": {
+    {
+        "name": "Girls' bathroom",
         "labels": [
             "Maybe"
         ],
@@ -603,7 +653,8 @@
         "time_estimate": 30,
         "later": false
     },
-    "Clean powder room": {
+    {
+        "name": "Clean powder room",
         "labels": [
             "This Week"
         ],
@@ -615,7 +666,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Clean behind couch": {
+    {
+        "name": "Clean behind couch",
         "labels": [
             "Maybe"
         ],
@@ -627,7 +679,8 @@
         "time_estimate": 60,
         "later": false
     },
-    "Clean windows": {
+    {
+        "name": "Clean windows",
         "labels": [
             "Maybe"
         ],
@@ -639,7 +692,8 @@
         "time_estimate": 60,
         "later": false
     },
-    "Dust ceiling fans": {
+    {
+        "name": "Dust ceiling fans",
         "labels": [
             "Maybe"
         ],
@@ -651,7 +705,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Wipe down appliances": {
+    {
+        "name": "Wipe down appliances",
         "labels": [
             "Maybe"
         ],
@@ -663,7 +718,8 @@
         "time_estimate": 10,
         "later": true
     },
-    "Clean bedroom closet": {
+    {
+        "name": "Clean bedroom closet",
         "labels": [
             "Maybe"
         ],
@@ -675,7 +731,8 @@
         "time_estimate": 120,
         "later": false
     },
-    "Clean fridge coils": {
+    {
+        "name": "Clean fridge coils",
         "labels": [
             "Maybe"
         ],
@@ -687,7 +744,8 @@
         "time_estimate": 60,
         "later": false
     },
-    "Vacuum mattress": {
+    {
+        "name": "Vacuum mattress",
         "labels": [
             "Maybe"
         ],
@@ -699,7 +757,8 @@
         "time_estimate": 20,
         "later": false
     },
-    "Shampoo carpets": {
+    {
+        "name": "Shampoo carpets",
         "labels": [
             "Maybe"
         ],
@@ -711,7 +770,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Clean front closet": {
+    {
+        "name": "Clean front closet",
         "labels": [
             "Maybe"
         ],
@@ -723,7 +783,8 @@
         "time_estimate": 60,
         "later": false
     },
-    "Next day schedule": {
+    {
+        "name": "Next day schedule",
         "labels": [
             "This Week"
         ],
@@ -735,7 +796,8 @@
         "time_estimate": 10,
         "later": true
     },
-    "Weekend board review": {
+    {
+        "name": "Weekend board review",
         "labels": [
             "This Week",
             "Desk"
@@ -748,7 +810,8 @@
         "time_estimate": 15,
         "later": false
     },
-    "Water flowers": {
+    {
+        "name": "Water flowers",
         "labels": [
             "This Week"
         ],
@@ -760,4 +823,4 @@
         "time_estimate": 5,
         "later": true
     }
-}
+]
