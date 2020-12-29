@@ -61,7 +61,8 @@ class Task:
         }
         
     def create_card(self):
-        self.assign_due_date()
+        if self.date_info["post_date"]:
+            self.assign_due_date()
         self.create_card_body()
         inbox = self._board.lists["Inbox"]
 
@@ -70,8 +71,8 @@ class Task:
             "idList": inbox.id,
             "name": self.name,
             "idLabels": self._label_ids,
-            "due": self.due,
+            "due": getattr(self, "due", None),   
             "desc": hlp.format_desc(self.card_body)
         }
         hlp.request("POST", url, **params)        
-        print(f"Posted card: {self.name} (due {self.due.date()})")
+        print(f"Posted card: {self.name}")
