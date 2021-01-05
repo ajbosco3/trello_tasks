@@ -9,11 +9,9 @@ import helpers as hlp
 
 class Board:
     def __init__(self, board_name):
+        self.name = board_name
         self._get_classes()
-        self._get_board_id(board_name)
-        self._get_labels()
-        self._get_lists()
-        self._get_cards()
+        self._get_components()
 
     def _get_classes(self):
         self._classes = {
@@ -21,10 +19,16 @@ class Board:
             "card": Card
         }
 
-    def _get_board_id(self, board_name):
+    def _get_components(self):
+        self._get_board_id()
+        self._get_labels()
+        self._get_lists()
+        self._get_cards()
+
+    def _get_board_id(self):
         url = "https://api.trello.com/1/members/me/boards"
         boards = hlp.request("GET", url)
-        board_id = [board["id"] for board in boards if board["name"] == board_name][0]
+        board_id = [board["id"] for board in boards if board["name"] == self.name][0]
         self.board_id = board_id
         
     def _get_cards(self):
