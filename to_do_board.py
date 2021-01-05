@@ -6,8 +6,16 @@ import helpers as hlp
 
 class Board(trello.Board):
     def __init__(self, board_name):
-        super().__init__(board_name)
+        self.name = board_name
+        self._get_classes()
+        super()._get_components()
         self._import_tasks()
+    
+    def _get_classes(self):
+        self._classes = {
+            "list": List,
+            "card": Card
+        }
     
     def _import_tasks(self):
         with open(TASK_FILE, "r") as f:
