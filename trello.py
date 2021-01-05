@@ -9,10 +9,17 @@ import helpers as hlp
 
 class Board:
     def __init__(self, board_name):
+        self._get_classes()
         self._get_board_id(board_name)
         self._get_labels()
         self._get_lists()
         self._get_cards()
+
+    def _get_classes(self):
+        self._classes = {
+            "list": List,
+            "card": Card
+        }
 
     def _get_board_id(self, board_name):
         url = "https://api.trello.com/1/members/me/boards"
