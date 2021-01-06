@@ -52,7 +52,7 @@ class Board:
         self.lists = {}
         for list_input in lists_:
             list_input["board"] = self
-            board_list = List(list_input)
+            board_list = self._classes["list"](list_input)
             self.lists[board_list.name] = board_list
         print("Fetched lists and cards.")
 

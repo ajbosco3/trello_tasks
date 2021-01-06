@@ -10,7 +10,7 @@ class Board(trello.Board):
         self._get_classes()
         super()._get_components()
         self._import_tasks()
-    
+
     def _get_classes(self):
         self._classes = {
             "list": List,
@@ -35,7 +35,18 @@ class Card(trello.Card):
     pass
 
 class List(trello.List):
-    pass
+    def __init__(self, list_input):
+        super().__init__(list_input)
+
+    def _log_date(self):
+        for card in self.cards:
+            if card.name in self.board.tasks:
+                if card.due is not None:
+                    due_date = card.due.strftime("%Y-%m-%d")
+                    last_complete = due_date
+                else:
+                    last_complete = dt.date.today()
+                self.board.tasks[card.name].date_info["last_complete"] = last_complete
 
 class Task:
     def __init__(self, board, task):
