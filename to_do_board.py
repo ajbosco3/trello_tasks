@@ -52,6 +52,11 @@ class List(trello.List):
                 else:
                     last_complete = dt.date.today()
                 self.board.tasks[card.name].date_info["last_complete"] = last_complete
+    
+    def archive_log(self):
+        self._log_date()
+        self.board._update_task_file()
+        super().archive_cards()
 
 class Task:
     def __init__(self, board, task):

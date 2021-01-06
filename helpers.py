@@ -55,9 +55,9 @@ def request(r_type, url, **kwargs):
     else:
         return r
 
-def format_tasks(task_list):
+def format_tasks(tasks):
     task_output = []
-    for task in task_list:
+    for _, task in tasks.items():
         task_dict = task.__dict__.copy()
         for key in task.__dict__:
             if key.startswith("_"):
