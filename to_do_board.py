@@ -21,6 +21,11 @@ class Board(trello.Board):
         with open(TASK_FILE, "r") as f:
             tasks = json.load(f)
         self.tasks = {task["name"]: Task(self, task) for task in tasks}
+    
+    def _update_task_file(self):
+        task_output = hlp.format_tasks(self.tasks)
+        with open(TASK_FILE, "w") as f:
+            json.dump(task_output, f, default=hlp.date_handler)
 
     def post_tasks(self):
         for task in self.tasks.values():
