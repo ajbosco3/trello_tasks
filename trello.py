@@ -92,6 +92,15 @@ class Card:
             self.__setattr__(key, val)
         self.labels = sorted(self.labels, key=lambda x: x["name"])
         self.board = self.list.board
+    
+    def _parse_checklist(self, get_complete, checklist):
+        name = checklist["name"]
+        check_items = sorted(checklist["checkItems"], key=lambda x: x["pos"])
+        for checkitem in check_items:
+            if get_complete == False and checkitem["state"] == "complete":
+                continue
+            item_name = checkitem["name"]
+            self.checklists[name].append(item_name)
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
@@ -114,12 +123,8 @@ class Card:
         self.checklists = defaultdict(list)
         url = f"https://api.trello.com/1/cards/{self.id}/checklists"
         raw = hlp.request("GET", url)
-
-        for checklist in raw:
-            name = checklist["name"]
-            check_items = sorted(checklist["checkItems"], key=lambda x: x["pos"])
-            for checkitem in check_items:
-                if get_complete == False and checkitem["state"] == "complete":
-                    continue
-                item_name = checkitem["name"]
-                self.checklists[name].append(item_name)
+        if len(raw) == 0:
+            self.checklists = {}
+        else:
+            for checklist in raw:
+                self._parse_checklist(get_complete, checklist)
