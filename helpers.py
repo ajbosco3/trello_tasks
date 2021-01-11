@@ -70,7 +70,11 @@ def date_handler(record_val):
         return record_val.__str__()
 
 def hyperlink_split(hyperlink):
-    name_raw, link_raw = hyperlink.split("](")
-    name = name_raw.replace("[", "")
-    link = link_raw.replace(")", "")
+    if hyperlink.startswith("["):
+        name_raw, link_raw = hyperlink.split("](")
+        name = name_raw.replace("[", "")
+        link = link_raw.replace(")", "")
+    else:
+        name = hyperlink
+        link = ''
     return name, link
