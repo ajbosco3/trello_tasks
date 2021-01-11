@@ -110,7 +110,7 @@ class Card:
             self.list.cards.append(self)
             print(f"Moved card {self.name} to {self.list.name} (due {self.due})")
     
-    def get_checklists(self):
+    def get_checklists(self, get_complete=True):
         self.checklists = defaultdict(list)
         url = f"https://api.trello.com/1/cards/{self.id}/checklists"
         raw = hlp.request("GET", url)
@@ -119,5 +119,7 @@ class Card:
             name = checklist["name"]
             check_items = sorted(checklist["checkItems"], key=lambda x: x["pos"])
             for checkitem in check_items:
+                if get_complete == False and checkitem["state"] == "complete":
+                    continue
                 item_name = checkitem["name"]
                 self.checklists[name].append(item_name)
