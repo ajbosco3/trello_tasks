@@ -68,3 +68,9 @@ def format_tasks(tasks):
 def date_handler(record_val):
     if isinstance(record_val, (dt.date, dt.datetime)):
         return record_val.__str__()
+
+def hyperlink_split(hyperlink):
+    name_raw, link_raw = hyperlink.split("](")
+    name = name_raw.replace("[", "")
+    link = link_raw.replace(")", "")
+    return name, link
