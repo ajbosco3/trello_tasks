@@ -115,4 +115,11 @@ class Project:
     
     def _get_subtasks(self):
         self.card.get_checklists(get_complete=False)
-        self.subtasks = self.card.checklists.get("Checklist", list())
+        raw = self.card.checklists.get("Checklist", list())
+        self._parse_subtasks(raw)
+    
+    def _parse_subtasks(self, subtasks):
+        self.subtasks = {}
+        for subtask in subtasks:
+            name, link = hlp.hyperlink_split(subtask)
+            self.subtasks[name] = link
