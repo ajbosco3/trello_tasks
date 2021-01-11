@@ -105,3 +105,14 @@ class Task:
         }
         hlp.request("POST", url, **params)        
         print(f"Posted card: {self.name}")
+
+class Project:
+    def __init__(self, card):
+        self.board = card.board
+        self.card = card
+        self.name = card.name
+        self._get_subtasks()
+    
+    def _get_subtasks(self):
+        self.card.get_checklists(get_complete=False)
+        self.subtasks = self.card.checklists.get("Checklist", list())
