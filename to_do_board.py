@@ -83,10 +83,11 @@ class Task:
         return date
 
     def assign_due_date(self):
-        base = self._get_base_date()
-        raw_due = base + dt.timedelta(self.date_info["delta"])
-        utc_due = self._advance_date(raw_due)
-        self.due = hlp.localize_ts(utc_due)
+        if self.date_info["post_date"]:
+            base = self._get_base_date()
+            raw_due = base + dt.timedelta(self.date_info["delta"])
+            utc_due = self._advance_date(raw_due)
+            self.due = hlp.localize_ts(utc_due)
 
     def create_card_body(self):
         self.card_body = {
@@ -96,21 +97,15 @@ class Task:
         }
         
     def create_card(self):
-        if self.date_info["post_date"]:
-            self.assign_due_date()
-        self.create_card_body()
         inbox = self._board.lists["Inbox"]
-
-        url = "https://api.trello.com/1/cards"
+        self.assign_due_date()
+        self.create_card_body()
         params = {
-            "idList": inbox.id,
-            "name": self.name,
             "idLabels": self._label_ids,
             "due": getattr(self, "due", None),   
             "desc": hlp.format_desc(self.card_body)
         }
-        hlp.request("POST", url, **params)        
-        print(f"Posted card: {self.name}")
+        inbox.add_card(self.name, **params)
 
 class Project:
     def __init__(self, card):
