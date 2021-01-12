@@ -32,10 +32,10 @@ class Board:
         self.board_id = board_id
         
     def _get_cards(self):
-        self.card_names = []
+        self.cards = {}
         for list_ in self.lists.values():
             for card in list_.cards:
-                self.card_names.append(card.name)
+                self.cards[card.name] = card
 
     def _get_labels(self):
         url = f"https://api.trello.com/1/boards/{self.board_id}/labels/"
