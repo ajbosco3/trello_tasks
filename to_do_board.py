@@ -121,5 +121,8 @@ class Project:
     def _parse_subtasks(self, subtasks):
         self.subtasks = {}
         for subtask in subtasks:
+            card = ''
             name, link = hlp.hyperlink_split(subtask)
-            self.subtasks[name] = link
+            if link != '':
+                card = self.board.cards[name]
+            self.subtasks[name] = card
