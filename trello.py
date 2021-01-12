@@ -77,6 +77,17 @@ class List:
             card_input["list"] = self
             self.cards.append(Card(card_input))
 
+    def add_card(self, name, **kwargs):
+        url = "https://api.trello.com/1/cards"
+        params = {
+            "idList": self.id,
+            "name": name,
+            **kwargs
+        }
+        hlp.request("POST", url, **params)
+        print(f"Posted card: {name}")
+
+
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
         hlp.request("POST", url)
