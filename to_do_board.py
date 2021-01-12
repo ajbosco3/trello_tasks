@@ -29,7 +29,7 @@ class Board(trello.Board):
 
     def post_tasks(self):
         for task in self.tasks.values():
-            if task.name not in self.card_names:
+            if task.name not in self.cards:
                 task.create_card()
             else:
                 print(f"Card skipped: {task.name}")
