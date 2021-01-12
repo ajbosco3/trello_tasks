@@ -68,19 +68,25 @@ class Task:
         self.time_estimate = task["time_estimate"]
         self.later = task["later"]
 
-    def assign_due_date(self):
+    def _get_base_date(self):
         if self.date_info["last_complete"]:
             base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
-        base = base.replace(hour=23,minute=59,second=0)
-        raw_due_date = base + dt.timedelta(self.date_info["delta"])
-
+        base.replace(hour=23,minute=59,second=0)
+        return base
+    
+    def _advance_date(self, date):
         next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
         if self.date_info["advance"]:
-            raw_due_date = next_sunday(raw_due_date)
-        
-        self.due = hlp.localize_ts(raw_due_date)
+            date = next_sunday(date)
+        return date
+
+    def assign_due_date(self):
+        base = self._get_base_date()
+        raw_due = base + dt.timedelta(self.date_info["delta"])
+        utc_due = self._advance_date(raw_due)
+        self.due = hlp.localize_ts(utc_due)
 
     def create_card_body(self):
         self.card_body = {
