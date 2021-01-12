@@ -70,7 +70,7 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.id}/cards'
-        fields = ["id","name","desc","due","labels"]
+        fields = ["id","name","desc","due","labels","url"]
         card_list = hlp.request("GET", url, fields=fields)
         for card_input in card_list:
             card_input["due"] = hlp.localize_ts(card_input["due"])
