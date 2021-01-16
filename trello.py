@@ -84,9 +84,8 @@ class List:
             "name": name,
             **kwargs
         }
-        r = hlp.request("POST", url, **params)
+        hlp.request("POST", url, **params)
         print(f"Posted card: {name}")
-        return r
 
 
     def archive_cards(self):
