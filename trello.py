@@ -66,6 +66,12 @@ class List:
         self.id = list_input["id"]
         self.name = list_input["name"]
         self.get_list_cards()
+    
+    def _register_card(self, card_input):
+        card_input["list"] = self
+        card_input["due"] = hlp.localize_ts(card_input.get("due", None))
+        card = Card(card_input)
+        self.cards.append(card)
 
     def get_list_cards(self):
         self.cards = []
@@ -73,9 +79,7 @@ class List:
         fields = ["id","name","desc","due","labels","url"]
         card_list = hlp.request("GET", url, fields=fields)
         for card_input in card_list:
-            card_input["due"] = hlp.localize_ts(card_input["due"])
-            card_input["list"] = self
-            self.cards.append(Card(card_input))
+            self._register_card(card_input)
 
     def add_card(self, name, **kwargs):
         url = "https://api.trello.com/1/cards"
@@ -84,7 +88,8 @@ class List:
             "name": name,
             **kwargs
         }
-        hlp.request("POST", url, **params)
+        r = hlp.request("POST", url, **params)
+        self._register_card(r.json())
         print(f"Posted card: {name}")
 
 
@@ -99,9 +104,13 @@ class List:
 
 class Card:
     def __init__(self, card_input):
-        for key, val in card_input.items():
-            self.__setattr__(key, val)
-        self.labels = sorted(self.labels, key=lambda x: x["name"])
+        self.id = card_input["id"]
+        self.name = card_input["name"]
+        self.desc = card_input["desc"]
+        self.due = card_input["due"]
+        self.labels = sorted(card_input["labels"], key=lambda x: x["name"])
+        self.url = card_input["url"]
+        self.list = card_input["list"]
         self.board = self.list.board
     
     def _parse_checklist(self, get_complete, checklist):
