@@ -121,24 +121,25 @@ class Project:
     
     def _parse_subtasks(self, subtasks):
         self.subtasks = {}
+        self.subtask_card_cnt = 0
         for subtask in subtasks:
             card = ''
             name, link = hlp.hyperlink_split(subtask)
             if link != '':
                 card = self.board.cards[name]
+                self.subtask_card_cnt += 1
             self.subtasks[name] = card
     
     def _make_subtask_card(self, name):
         inbox = self.board.lists["Inbox"]
         inbox.add_card(name)
     
-    def post_subtask_cards(self, num_cards=1):
-        cards_made = 0
+    def post_subtask_cards(self, tot_cards=1):
         for name, subtask in self.subtasks.items():
             if subtask == '':
                 self._make_subtask_card(name)
-                cards_made += 1
-            if cards_made == num_cards:
+                self.subtask_card_cnt += 1
+            if self.subtask_card_cnt == tot_cards:
                 break
 
 
