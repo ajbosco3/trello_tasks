@@ -4,4 +4,4 @@ regular_tasks.json
 *.pyc
 regular_tasks_test.json
 .vscode
-xfer_meijer.py
+xfer_meijer.*
