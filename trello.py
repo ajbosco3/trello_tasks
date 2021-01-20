@@ -66,6 +66,7 @@ class List:
         card_input["due"] = hlp.localize_ts(card_input.get("due", None))
         card = Card(card_input)
         self.cards.append(card)
+        return card
 
     def get_list_cards(self):
         self.cards = []
@@ -75,7 +76,7 @@ class List:
         for card_input in card_list:
             self._register_card(card_input)
 
-    def add_card(self, name, **kwargs):
+    def add_card(self, name, return_card=False, **kwargs):
         url = "https://api.trello.com/1/cards"
         params = {
             "idList": self.id,
@@ -83,8 +84,10 @@ class List:
             **kwargs
         }
         r = hlp.request("POST", url, **params)
-        self._register_card(r.json())
+        card = self._register_card(r.json())
         print(f"Posted card: {name}")
+        if return_card:
+            return card
 
 
     def archive_cards(self):
