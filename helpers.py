@@ -69,6 +69,10 @@ def date_handler(record_val):
     if isinstance(record_val, (dt.date, dt.datetime)):
         return record_val.__str__()
 
+def make_hyperlink(name, link):
+    hyperlink = f"[{name}]({link})"
+    return hyperlink
+
 def hyperlink_split(hyperlink):
     if hyperlink.startswith("["):
         name_raw, link_raw = hyperlink.split("](")
