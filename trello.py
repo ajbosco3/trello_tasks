@@ -109,15 +109,6 @@ class Card:
         self.url = card_input["url"]
         self.list = card_input["list"]
         self.board = self.list.board
-    
-    def _parse_checklist(self, get_complete, checklist):
-        name = checklist["name"]
-        check_items = sorted(checklist["checkItems"], key=lambda x: x["pos"])
-        for checkitem in check_items:
-            if get_complete == False and checkitem["state"] == "complete":
-                continue
-            item_name = checkitem["name"]
-            self.checklists[name].append(item_name)
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
@@ -136,12 +127,27 @@ class Card:
             self.list.cards.append(self)
             print(f"Moved card {self.name} to {self.list.name} (due {self.due})")
     
-    def get_checklists(self, get_complete=True):
-        self.checklists = defaultdict(list)
+    def get_checklists(self):
+        self.checklists = {}
         url = f"https://api.trello.com/1/cards/{self.id}/checklists"
         raw = hlp.request("GET", url)
-        if len(raw) == 0:
-            self.checklists = {}
-        else:
-            for checklist in raw:
-                self._parse_checklist(get_complete, checklist)
+        for checklist in raw:
+            checklist["card"] = self
+            name = checklist["name"]
+            self.checklists[name] = Checklist(checklist)
+
+class Checklist:
+    def __init__(self, check_input):
+        self.card = check_input["card"]
+        self.name = check_input["name"]
+        self._parse_input(check_input)
+    
+    def _parse_input(self, check_input, get_complete=False):
+        self.check_items = []
+        check_items = sorted(check_input["checkItems"], key=lambda x: x["pos"])
+        for checkitem in check_items:
+            if get_complete == False and checkitem["state"] == "complete":
+                continue
+            item_name = checkitem["name"]
+            item_id = checkitem["id"]
+            self.check_items.append({item_name: item_id})
