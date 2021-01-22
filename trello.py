@@ -143,11 +143,11 @@ class Checklist:
         self._parse_input(check_input)
     
     def _parse_input(self, check_input, get_complete=False):
-        self.check_items = []
+        self.check_items = {}
         check_items = sorted(check_input["checkItems"], key=lambda x: x["pos"])
         for checkitem in check_items:
             if get_complete == False and checkitem["state"] == "complete":
                 continue
             item_name = checkitem["name"]
             item_id = checkitem["id"]
-            self.check_items.append({item_name: item_id})
+            self.check_items[item_name] = item_id
