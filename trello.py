@@ -160,3 +160,13 @@ class Checklist:
             item_name = checkitem["name"]
             item_id = checkitem["id"]
             self.check_items[item_name] = item_id
+    
+    def update_item(self, name, new_name, state="incomplete"):
+        item_id = self.check_items[name]
+        url = f"https://api.trello.com/1/cards/{self.card.id}/checkItem/{item_id}"
+        params = {
+            "name": new_name,
+            "state": state
+        }
+        hlp.request("PUT", url, **params)
+        self.card.get_checklists()
