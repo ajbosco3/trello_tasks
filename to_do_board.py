@@ -115,31 +115,39 @@ class Project:
         self._get_subtasks()
     
     def _get_subtasks(self):
-        self.card.get_checklists(get_complete=False)
-        raw = self.card.checklists.get("Checklist", list())
-        self._parse_subtasks(raw)
-    
-    def _parse_subtasks(self, subtasks):
+        self.card.get_checklists()
+        self.checklist = self.card.checklists.get("Checklist", dict())
+        self._parse_subtasks()
+        
+    def _parse_subtasks(self):
         self.subtasks = {}
         self.subtask_card_cnt = 0
-        for subtask in subtasks:
+        check_items = self.checklist.check_items
+        for subtask, check_id in check_items.items():
             card = ''
             name, link = hlp.hyperlink_split(subtask)
             if link != '':
                 card = self.board.cards[name]
                 self.subtask_card_cnt += 1
-            self.subtasks[name] = card
+            self.subtasks[name] = {"card": card, "check_id": check_id}
     
     def _make_subtask_card(self, name):
         inbox = self.board.lists["Inbox"]
-        inbox.add_card(name)
+        card = inbox.add_card(name, return_card=True)
+        return card
+    
+    def _update_checkitem(self, card):
+        new_name = hlp.make_hyperlink(card.name, card.url)
+        self.checklist.update_item(card.name, new_name)
+
     
     def post_subtask_cards(self, tot_cards=1):
         for name, subtask in self.subtasks.items():
-            if subtask == '':
-                self._make_subtask_card(name)
-                self.subtask_card_cnt += 1
-            if self.subtask_card_cnt == tot_cards:
+            if self.subtask_card_cnt >= tot_cards:
                 break
-
-
+            elif subtask["card"] == '':
+                card = self._make_subtask_card(name)
+                self.subtasks[name]["card"] = card
+                self._update_checkitem(card)
+                card.create_attachment(self.card.url)
+                self.subtask_card_cnt += 1
