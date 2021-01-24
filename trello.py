@@ -135,6 +135,15 @@ class Card:
             checklist["card"] = self
             name = checklist["name"]
             self.checklists[name] = Checklist(checklist)
+    
+    def create_attachment(self, attach_url):
+        url = f"https://api.trello.com/1/cards/{self.id}/attachments"
+        params = {
+            "url": attach_url
+        }
+        hlp.request("POST", url, **params)
+
+    
 
 class Checklist:
     def __init__(self, check_input):

@@ -43,13 +43,13 @@ def format_desc(desc_dict):
     desc = "#Stats\n{}".format('\n'.join(desc_struct))
     return desc
 
-def request(r_type, url, **kwargs):
+def request(r_type, api_url, **kwargs):
     querystring = QUERYSTRING.copy()
     r_type = r_type.upper()
 
     for key, val in kwargs.items():
         querystring[key] = val
-    r = requests.request(r_type, url, params=querystring)
+    r = requests.request(r_type, api_url, params=querystring)
     if r_type == "GET":
         return r.json()
     else:
