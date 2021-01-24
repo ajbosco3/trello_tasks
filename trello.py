@@ -89,7 +89,6 @@ class List:
         if return_card:
             return card
 
-
     def archive_cards(self):
         url = f"https://api.trello.com/1/lists/{self.id}/archiveAllCards"
         hlp.request("POST", url)
@@ -142,8 +141,6 @@ class Card:
             "url": attach_url
         }
         hlp.request("POST", url, **params)
-
-    
 
 class Checklist:
     def __init__(self, check_input):
