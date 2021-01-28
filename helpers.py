@@ -26,6 +26,12 @@ def snake_case(string):
     snake = lower.replace(" ", "_")
     return snake
 
+def get_dates():
+    now = localize_ts(dt.datetime.now())
+    sunday = (now + dt.timedelta(6 - now.weekday() % 7)).replace(hour=23, minute=59, second=0)
+    hours_to_sunday = int((sunday - now).total_seconds()//3600)
+    return (now, sunday, hours_to_sunday)
+
 def localize_ts(timestamp):
     if timestamp:
         utc = tz.tzutc()
