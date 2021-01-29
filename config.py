@@ -10,5 +10,5 @@ def get_credentials():
     return creds
 
 QUERYSTRING = get_credentials()
-EXEMPT = ["Epics"]
+EXEMPT = ["Projects"]
 TASK_FILE = (base_path / "tasks.json")
