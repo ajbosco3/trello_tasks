@@ -64,7 +64,7 @@ class List:
     def _register_card(self, card_input):
         card_input["list"] = self
         card_input["due"] = hlp.localize_ts(card_input.get("due", None))
-        card = Card(card_input)
+        card = self.board._classes["card"](card_input)
         self.cards.append(card)
         return card
 
