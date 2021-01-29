@@ -8,6 +8,7 @@ class Board(trello.Board):
     def __init__(self, board_name):
         self.name = board_name
         self._get_classes()
+        self._get_diff_map()
         super()._get_components()
         self._import_tasks()
 
@@ -17,6 +18,13 @@ class Board(trello.Board):
             "card": Card
         }
     
+    def _get_diff_map(self):
+        hours_to_sunday = hlp.hours_to_sunday()
+        self.diff_map = hlp.RangeDict({
+            range(0,29): "Today",
+            range(29,hours_to_sunday+1): "To Do"
+        })
+
     def _import_tasks(self):
         with open(TASK_FILE, "r") as f:
             tasks = json.load(f)
