@@ -45,7 +45,8 @@ class Board(trello.Board):
         inbox.get_list_cards()
 
 class Card(trello.Card):
-    pass
+    def __init__(self, card_input):
+        super().__init__(card_input)
 
 class List(trello.List):
     def __init__(self, list_input):
