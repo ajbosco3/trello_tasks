@@ -47,7 +47,14 @@ class Board(trello.Board):
 class Card(trello.Card):
     def __init__(self, card_input):
         super().__init__(card_input)
-
+    
+    def assign_list(self):
+        now = hlp.localize_ts(dt.datetime.now())
+        diff = int((self.due - now).total_seconds()//3600)
+        new_list = self.board.diff_map.get(diff, "Someday")
+        if self.list.name != new_list:
+            self.move_card(new_list)
+            
 class List(trello.List):
     def __init__(self, list_input):
         super().__init__(list_input)
