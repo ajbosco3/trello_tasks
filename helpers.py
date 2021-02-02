@@ -90,3 +90,9 @@ def hyperlink_split(hyperlink):
         name = hyperlink
         link = ''
     return name, link
+
+def combine_lists(lists):
+    new_list = []
+    for list_ in lists:
+        new_list.extend(list_)
+    return new_list
