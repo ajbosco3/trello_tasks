@@ -142,8 +142,12 @@ class Card:
             "url": attach_url
         }
         hlp.request("POST", url, **params)
-    
 
+    def change_pos(self, card_pos):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        hlp.request("PUT", url, pos=card_pos)
+        self.pos = card_pos
+    
 
 class Checklist:
     def __init__(self, check_input):
