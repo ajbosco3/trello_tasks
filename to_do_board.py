@@ -1,4 +1,4 @@
-from config import TASK_FILE
+from config import TASK_FILE, LABEL_PRIORITY
 import trello
 import datetime as dt
 import json
@@ -11,6 +11,7 @@ class Board(trello.Board):
         self._get_diff_map()
         super()._get_components()
         self._import_tasks()
+        self.label_priority = LABEL_PRIORITY
 
     def _get_classes(self):
         self._classes = {

@@ -12,3 +12,8 @@ def get_credentials():
 QUERYSTRING = get_credentials()
 EXEMPT = ["Projects"]
 TASK_FILE = (base_path / "tasks.json")
+LABEL_PRIORITY = {
+    "Critical": 1,
+    "This Week": 2,
+    "Maybe": 3
+}
