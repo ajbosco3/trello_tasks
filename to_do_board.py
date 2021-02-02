@@ -43,6 +43,13 @@ class Board(trello.Board):
                 print(f"Card skipped: {task.name}")
         inbox = self.lists["Inbox"]
         inbox.get_list_cards()
+    
+    def rearrange_cards(self):
+        for list_ in self.lists.values():
+            card_list = list_.cards.copy()
+            for card in card_list:
+                if card.due is not None:
+                    card.assign_list()
 
 class Card(trello.Card):
     def __init__(self, card_input):
@@ -54,7 +61,7 @@ class Card(trello.Card):
         new_list = self.board.diff_map.get(diff, "Someday")
         if self.list.name != new_list:
             self.move_card(new_list)
-            
+
 class List(trello.List):
     def __init__(self, list_input):
         super().__init__(list_input)
