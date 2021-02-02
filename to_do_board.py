@@ -9,9 +9,10 @@ class Board(trello.Board):
         self.name = board_name
         self._get_classes()
         self._get_diff_map()
+        self.label_priority = LABEL_PRIORITY
         super()._get_components()
         self._import_tasks()
-        self.label_priority = LABEL_PRIORITY
+        
 
     def _get_classes(self):
         self._classes = {
@@ -55,6 +56,16 @@ class Board(trello.Board):
 class Card(trello.Card):
     def __init__(self, card_input):
         super().__init__(card_input)
+        self.priority = self._assign_priority()
+
+    def _assign_priority(self):
+        for label in self.labels:
+            name = label["name"]
+            if name in self.board.label_priority:
+                priority = self.board.label_priority[name]
+                return priority
+        priority = 99
+        return priority
     
     def assign_list(self):
         now = hlp.localize_ts(dt.datetime.now())
