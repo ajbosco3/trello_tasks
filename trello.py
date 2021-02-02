@@ -71,7 +71,7 @@ class List:
     def get_list_cards(self):
         self.cards = []
         url = f'https://api.trello.com/1/lists/{self.id}/cards'
-        fields = ["id","name","desc","due","labels","url"]
+        fields = ["id","name","desc","due","labels","url","pos"]
         card_list = hlp.request("GET", url, fields=fields)
         for card_input in card_list:
             self._register_card(card_input)
@@ -106,6 +106,7 @@ class Card:
         self.due = card_input["due"]
         self.labels = sorted(card_input["labels"], key=lambda x: x["name"])
         self.url = card_input["url"]
+        self.pos = card_input["pos"]
         self.list = card_input["list"]
         self.board = self.list.board
 
@@ -141,6 +142,8 @@ class Card:
             "url": attach_url
         }
         hlp.request("POST", url, **params)
+    
+
 
 class Checklist:
     def __init__(self, check_input):
