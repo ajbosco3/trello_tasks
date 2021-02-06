@@ -88,10 +88,26 @@ class List(trello.List):
                     last_complete = dt.date.today()
                 self.board.tasks[card.name].date_info["last_complete"] = last_complete
     
+    def _create_buckets(self):
+        buckets = {p: [] for p in self.board.label_priority.values()}
+        buckets[99] = []
+        for card in self.cards:
+            buckets[card.priority].append(card)
+        return buckets
+    
     def archive_log(self):
         self._log_date()
         self.board._update_task_file()
         super().archive_cards()
+    
+    def sort_list(self):
+        buckets = self._create_buckets()
+        sorted_cards = hlp.combine_lists(buckets.values())
+        pos = 0
+        for card in sorted_cards:
+            card.change_pos(pos)
+            pos += 94
+
 
 class Task:
     def __init__(self, board, task):
