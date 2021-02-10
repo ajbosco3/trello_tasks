@@ -53,6 +53,12 @@ class Board(trello.Board):
                 for card in card_list:
                     if card.due is not None:
                         card.assign_list()
+    
+    def sort_all_lists(self):
+        for list_ in self.lists.values():
+            if not list_.exempt:
+                list_.sort_list()
+
 
 class Card(trello.Card):
     def __init__(self, card_input):
