@@ -1,4 +1,4 @@
-from config import TASK_FILE, LABEL_PRIORITY
+from config import TASK_FILE, LABEL_PRIORITY, EXEMPT
 import trello
 import datetime as dt
 import json
@@ -77,7 +77,8 @@ class Card(trello.Card):
 class List(trello.List):
     def __init__(self, list_input):
         super().__init__(list_input)
-
+        self.exempt = self.name in EXEMPT
+                
     def _log_date(self):
         for card in self.cards:
             if card.name in self.board.tasks:
