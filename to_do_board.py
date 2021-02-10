@@ -48,10 +48,11 @@ class Board(trello.Board):
     
     def rearrange_cards(self):
         for list_ in self.lists.values():
-            card_list = list_.cards.copy()
-            for card in card_list:
-                if card.due is not None:
-                    card.assign_list()
+            if not list_.exempt:
+                card_list = list_.cards.copy()
+                for card in card_list:
+                    if card.due is not None:
+                        card.assign_list()
 
 class Card(trello.Card):
     def __init__(self, card_input):
