@@ -148,6 +148,10 @@ class Card:
         hlp.request("PUT", url, pos=card_pos)
         self.pos = card_pos
     
+    def add_label(self, label_name):
+        url = f"https://api.trello.com/1/cards/{self.id}/idLabels"
+        label_id = self.board.labels[label_name]
+        hlp.request("POST", url, value=label_id)
 
 class Checklist:
     def __init__(self, check_input):
