@@ -129,7 +129,7 @@ class Task:
             base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
-        base.replace(hour=23,minute=59,second=0)
+        base = base.replace(hour=23,minute=59,second=0)
         return base
     
     def _advance_date(self, date):
