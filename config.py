@@ -15,5 +15,8 @@ TASK_FILE = (base_path / "tasks.json")
 LABEL_PRIORITY = {
     "Critical": 1,
     "This Week": 2,
-    "Maybe": 3
+    "Maybe": 3,
+    "Desk": 4,
+    "Later": 5,
+    "Project": 6
 }
