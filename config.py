@@ -20,3 +20,8 @@ LABEL_PRIORITY = {
     "Later": 5,
     "Project": 6
 }
+SORT_ORDER = lambda x: (
+    x.priority[1],
+    x.priority[0],
+    x.pos
+)
