@@ -64,16 +64,22 @@ class Card(trello.Card):
     def __init__(self, card_input):
         super().__init__(card_input)
         self.priority = self._assign_priority()
+    
+    def _parse_labels(self):
+        priority = self.board.label_priority
+        label_names = [label["name"] for label in self.labels]
+        priorities = sorted([priority[name] for name in label_names])
+        if len(priorities) == 1:
+            priorities.append(0)
+        return priorities
 
     def _assign_priority(self):
-        for label in self.labels:
-            name = label["name"]
-            if name in self.board.label_priority:
-                priority = self.board.label_priority[name]
-                return priority
-        priority = 99
-        return priority
-    
+        if len(self.labels) == 0:
+            priorities = [99,0]
+        else:
+            priorities = self._parse_labels()
+        return priorities
+
     def assign_list(self):
         now = hlp.localize_ts(dt.datetime.now())
         diff = int((self.due - now).total_seconds()//3600)
