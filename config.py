@@ -1,3 +1,4 @@
+from collections import defaultdict
 import json
 from pathlib import Path
 
@@ -20,8 +21,16 @@ LABEL_PRIORITY = {
     "Later": 5,
     "Project": 6
 }
-SORT_ORDER = lambda x: (
-    x.priority[1],
+DEFAULT_ORDER = lambda x: (
     x.priority[0],
+    x.priority[1],
     x.pos
+)
+SORT_ORDER = defaultdict(
+    lambda: DEFAULT_ORDER,
+    Today = lambda x: (
+        x.priority[1],
+        x.priority[0],
+        x.pos
+    )
 )

@@ -91,7 +91,8 @@ class List(trello.List):
     def __init__(self, list_input):
         super().__init__(list_input)
         self.exempt = self.name in EXEMPT
-                
+        self.sort_order = SORT_ORDER[self.name]
+        
     def _log_date(self):
         for card in self.cards:
             if card.name in self.board.tasks:
@@ -108,7 +109,7 @@ class List(trello.List):
         super().archive_cards()
     
     def sort_list(self):
-        sorted_cards = sorted(self.cards, key=SORT_ORDER)
+        sorted_cards = sorted(self.cards, key=self.sort_order)
         pos = 0
         for card in sorted_cards:
             card.change_pos(pos)
