@@ -12,7 +12,7 @@ class Board(trello.Board):
         self.label_priority = LABEL_PRIORITY
         super()._get_components()
         self._import_tasks()
-        
+        self._get_projects()
 
     def _get_classes(self):
         self._classes = {
@@ -36,6 +36,12 @@ class Board(trello.Board):
         task_output = hlp.format_tasks(self.tasks)
         with open(TASK_FILE, "w") as f:
             json.dump(task_output, f, default=hlp.date_handler)
+    
+    def _get_projects(self):
+        self.projects = {}
+        project_list = self.lists["Projects"]
+        for card in project_list.cards:
+            self.projects[card.name] = Project(card)
 
     def post_tasks(self):
         for task in self.tasks.values():
