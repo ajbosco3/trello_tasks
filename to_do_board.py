@@ -90,15 +90,13 @@ class Card(trello.Card):
         tasks = self.board.tasks
         name = self.name
         if name in tasks:
-            delta = tasks[name].date_info["delta"]
+            self.delta = tasks[name].date_info["delta"]
         else:
-            delta = 99
-        return delta
+            self.delta = 99
 
     def _get_new_list(self, diff):
         new_list = self.board.diff_map.get(diff, "Someday")
-        delta = self._get_delta()
-        if delta <= 7 and new_list != "Today":
+        if self.delta <= 7 and new_list != "Today":
             new_list = "Weekly"
         return new_list
 
