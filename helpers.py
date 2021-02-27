@@ -96,3 +96,11 @@ def combine_lists(lists):
     for list_ in lists:
         new_list.extend(list_)
     return new_list
+
+def get_diff(due):
+    now = localize_ts(dt.datetime.now())
+    if due is None:
+        diff = 999
+    else:
+        diff = int((due - now).total_seconds()//3600)
+    return diff
