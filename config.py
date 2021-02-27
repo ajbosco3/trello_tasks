@@ -34,3 +34,6 @@ SORT_ORDER = defaultdict(
         x.pos
     )
 )
+MOVE_CRITERIA = lambda x: (
+    x.due is not None or x.delta <= 7
+)
