@@ -1,4 +1,4 @@
-from config import TASK_FILE, LABEL_PRIORITY, EXEMPT, SORT_ORDER
+from config import TASK_FILE, LABEL_PRIORITY, EXEMPT, SORT_ORDER, MOVE_CRITERIA
 import trello
 import datetime as dt
 import json
@@ -57,7 +57,7 @@ class Board(trello.Board):
             if not list_.exempt:
                 card_list = list_.cards.copy()
                 for card in card_list:
-                    if card.due is not None:
+                    if card._can_move():
                         card.assign_list()
     
     def sort_all_lists(self):
@@ -93,6 +93,11 @@ class Card(trello.Card):
             self.delta = tasks[name].date_info["delta"]
         else:
             self.delta = 99
+    
+    def _can_move(self):
+        self._get_delta()
+        move = MOVE_CRITERIA(self)
+        return move
 
     def _get_new_list(self, diff):
         new_list = self.board.diff_map.get(diff, "Someday")
@@ -101,8 +106,7 @@ class Card(trello.Card):
         return new_list
 
     def assign_list(self):
-        now = hlp.localize_ts(dt.datetime.now())
-        diff = int((self.due - now).total_seconds()//3600)
+        diff = hlp.get_diff(self.due)
         new_list = self._get_new_list(diff)
         if self.list.name != new_list:
             self.move_card(new_list)
