@@ -85,11 +85,27 @@ class Card(trello.Card):
         else:
             priorities = self._parse_labels()
         return priorities
+    
+    def _get_delta(self):
+        tasks = self.board.tasks
+        name = self.name
+        if name in tasks:
+            delta = tasks[name].date_info["delta"]
+        else:
+            delta = 99
+        return delta
+
+    def _get_new_list(self, diff):
+        new_list = self.board.diff_map.get(diff, "Someday")
+        delta = self._get_delta()
+        if delta <= 7 and new_list != "Today":
+            new_list = "Weekly"
+        return new_list
 
     def assign_list(self):
         now = hlp.localize_ts(dt.datetime.now())
         diff = int((self.due - now).total_seconds()//3600)
-        new_list = self.board.diff_map.get(diff, "Someday")
+        new_list = self._get_new_list(diff)
         if self.list.name != new_list:
             self.move_card(new_list)
 
