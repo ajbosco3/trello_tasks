@@ -158,6 +158,7 @@ class Task:
         self.date_info = task["date_info"]
         self.time_estimate = task["time_estimate"]
         self.later = task["later"]
+        self.active = task["active"]
 
     def _get_base_date(self):
         if self.date_info["last_complete"]:
