@@ -67,6 +67,13 @@ class Board(trello.Board):
         for list_ in self.lists.values():
             if not list_.exempt:
                 list_.sort_list()
+    
+    def archive_done(self):
+        done = self.lists["Done"]
+        done.archive_log()
+    
+    def daily_update(self):
+        pass
 
 
 class Card(trello.Card):
