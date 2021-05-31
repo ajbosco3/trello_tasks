@@ -30,7 +30,10 @@ class Board(trello.Board):
     def _import_tasks(self):
         with open(TASK_FILE, "r") as f:
             tasks = json.load(f)
-        self.tasks = {task["name"]: Task(self, task) for task in tasks}
+        self.tasks = {}
+        for task in tasks:
+            if task["active"]:
+                self.tasks[task["name"]] = Task(self, task)
     
     def _update_task_file(self):
         task_output = hlp.format_tasks(self.tasks)
