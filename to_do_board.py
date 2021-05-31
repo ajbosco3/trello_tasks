@@ -73,8 +73,10 @@ class Board(trello.Board):
         done.archive_log()
     
     def daily_update(self):
-        pass
-
+        self.archive_done()
+        self.post_tasks()
+        self.rearrange_cards()
+        self.sort_all_lists()
 
 class Card(trello.Card):
     def __init__(self, card_input):
