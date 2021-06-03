@@ -164,6 +164,7 @@ class Task:
 
     def _get_base_date(self):
         if self.date_info["last_complete"]:
+            print(self.date_info["last_complete"])
             base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
@@ -245,3 +246,7 @@ class Project:
                 self._update_checkitem(card)
                 card.create_attachment(self.card.url)
                 self.subtask_card_cnt += 1
+
+if __name__ == "__main__":
+    board = Board("To Do GTD")
+    board.daily_update()
