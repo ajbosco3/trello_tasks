@@ -162,14 +162,19 @@ class Task:
         self.later = task["later"]
         self.active = task["active"]
         self._get_base_date()
+        self._get_past_deltas()
 
     def _get_base_date(self):
         if self.date_info["last_complete"]:
-            print(self.date_info["last_complete"])
             base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
         self.base = base.replace(hour=23,minute=59,second=0)
+    
+    def _get_past_deltas(self):
+        today = dt.datetime.today()
+        delta = self.date_info["delta"]
+        self.past_deltas = (today - self.base).days // delta
     
     def _advance_date(self, date):
         next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
@@ -187,7 +192,8 @@ class Task:
         self.card_body = {
             "last_complete": self.date_info["last_complete"],
             "time_estimate": self.time_estimate,
-            "later": self.later
+            "later": self.later,
+            "past_deltas": self.past_deltas
         }
         
     def create_card(self):
