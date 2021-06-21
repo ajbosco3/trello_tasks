@@ -103,8 +103,10 @@ class Card(trello.Card):
         name = self.name
         if name in tasks:
             self.delta = tasks[name].date_info["delta"]
+            self.past_deltas = tasks[name].date_info["past_deltas"]
         else:
             self.delta = 99
+            self.past_deltas = -999
     
     def _can_move(self):
         self._get_delta()
@@ -193,7 +195,7 @@ class Task:
             "last_complete": self.date_info["last_complete"],
             "time_estimate": self.time_estimate,
             "later": self.later,
-            "past_deltas": self.past_deltas
+            "past_deltas": self.date_info["past_deltas"]
         }
         
     def create_card(self):

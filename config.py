@@ -24,6 +24,7 @@ LABEL_PRIORITY = {
 DEFAULT_ORDER = lambda x: (
     x.priority[0],
     x.priority[1],
+    -x.past_deltas,
     x.pos
 )
 SORT_ORDER = defaultdict(
@@ -31,6 +32,7 @@ SORT_ORDER = defaultdict(
     Today = lambda x: (
         x.priority[1],
         x.priority[0],
+        -x.past_deltas,
         x.pos
     )
 )
