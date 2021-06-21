@@ -161,20 +161,20 @@ class Task:
         self.time_estimate = task["time_estimate"]
         self.later = task["later"]
         self.active = task["active"]
-        self._get_base_date()
         self._get_past_deltas()
 
-    def _get_base_date(self):
+    def _base_date(self):
         if self.date_info["last_complete"]:
             base = dt.datetime.strptime(self.date_info["last_complete"], "%Y-%m-%d")
         else:
             base = dt.datetime.today()
-        self.base = base.replace(hour=23,minute=59,second=0)
+        base = base.replace(hour=23,minute=59,second=0)
+        return base
     
     def _get_past_deltas(self):
         today = dt.datetime.today()
         delta = self.date_info["delta"]
-        self.past_deltas = (today - self.base).days // delta
+        self.date_info["past_deltas"] = (today - self._base_date()).days // delta
     
     def _advance_date(self, date):
         next_sunday = lambda x: x + dt.timedelta(6 - x.weekday() % 7)
@@ -184,7 +184,7 @@ class Task:
 
     def assign_due_date(self):
         if self.date_info["post_date"]:
-            raw_due = self.base + dt.timedelta(self.date_info["delta"])
+            raw_due = self._base_date() + dt.timedelta(self.date_info["delta"])
             utc_due = self._advance_date(raw_due)
             self.due = hlp.localize_ts(utc_due)
 
