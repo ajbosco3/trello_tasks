@@ -72,7 +72,14 @@ class Board(trello.Board):
         done = self.lists["Done"]
         done.archive_log()
     
+    def update_today(self):
+        today_list = self.lists["Today"]
+        today = dt.datetime.today().replace(hour=23,minute=59,second=0)
+        for card in today_list.cards:
+            card.change_due_date(today)
+    
     def daily_update(self):
+        self.update_today()
         self.archive_done()
         self.post_tasks()
         self.rearrange_cards()
