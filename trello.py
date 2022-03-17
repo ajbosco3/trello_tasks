@@ -107,8 +107,14 @@ class Card:
         self.labels = sorted(card_input["labels"], key=lambda x: x["name"])
         self.url = card_input["url"]
         self.pos = card_input["pos"]
-        self.list = card_input["list"]
-        self.board = self.list.board
+        self.board = card_input["board"]
+        self._get_list(card_input)
+    
+    def _get_list(self, card_input):
+        if "list" in card_input:
+            self.list = card_input["list"]
+        else:
+            self.list = self.board.lists["Inbox"]
 
     def change_due_date(self, date):
         date = hlp.localize_ts(date)
