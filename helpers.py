@@ -104,3 +104,17 @@ def get_diff(due):
     else:
         diff = int((due - now).total_seconds()//3600)
     return diff
+
+def get_shortlink(url):
+    try:
+        shortlink = url.split("/")[4]
+    except IndexError:
+        print(url)
+        raise
+    return shortlink
+
+def is_project(card):
+    for label in card.labels:
+        if label["name"] == "Project":
+            return True
+    return False
