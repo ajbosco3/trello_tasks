@@ -152,6 +152,11 @@ class Card:
         url = f"https://api.trello.com/1/cards/{self.id}/idLabels"
         label_id = self.board.labels[label_name]
         hlp.request("POST", url, value=label_id)
+    
+    def update_name(self, new_name):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        self.name = new_name
+        hlp.request("PUT", url, name=self.name)
 
 class Checklist:
     def __init__(self, check_input):
