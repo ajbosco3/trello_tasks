@@ -157,6 +157,10 @@ class Card:
         url = f"https://api.trello.com/1/cards/{self.id}"
         self.name = new_name
         hlp.request("PUT", url, name=self.name)
+    
+    def archive(self):
+        url = f"https://api.trello.com/1/cards/{self.id}"
+        hlp.request("PUT", url, closed="true")
 
 class Checklist:
     def __init__(self, check_input):
