@@ -14,6 +14,7 @@ class Board:
         }
 
     def _get_components(self):
+        self._get_classes()
         self._get_board_id()
         self._get_labels()
         self._get_lists()
@@ -63,6 +64,7 @@ class List:
     
     def _register_card(self, card_input):
         card_input["list"] = self
+        card_input["board"] = self.board
         card_input["due"] = hlp.localize_ts(card_input.get("due", None))
         card = self.board._classes["card"](card_input)
         self.cards.append(card)
@@ -106,6 +108,7 @@ class Card:
         self.due = card_input["due"]
         self.labels = sorted(card_input["labels"], key=lambda x: x["name"])
         self.url = card_input["url"]
+        self.shortlink = hlp.get_shortlink(self.url)
         self.pos = card_input["pos"]
         self.board = card_input["board"]
         self._get_list(card_input)
